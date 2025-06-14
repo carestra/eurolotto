@@ -175,7 +175,7 @@ class EurojackpotArchiveScrapperTest {
     Element hrefElement = mock(Element.class);
     mockOneTableRowWithAnchor(rowElementMock, anchorElementMock, hrefElementsMock);
     when(hrefElementsMock.getFirst()).thenReturn(hrefElement);
-    String expectedURI = "/results-10-06-2012";
+    String expectedURI = "/results/10-06-2012";
     when(hrefElement.attr("href")).thenReturn(expectedURI);
 
     Optional<List<DrawNumberURI>> actual = scrapper.fetch(ARCHIVE_BASE_URL_UNDER_TEST, ARCHIVE_PATH_URL_UNDER_TEST);
@@ -204,10 +204,10 @@ class EurojackpotArchiveScrapperTest {
     Element hrefElement2 = mock(Element.class);
     mockTwoTableRowWithAnchor(rowElementMock, rowElementMock2, anchorElementMock, anchorElementMock2, hrefElementsMock, hrefElementsMock2);
     when(hrefElementsMock.getFirst()).thenReturn(hrefElement);
-    String expectedURI = "/results-10-06-2012";
+    String expectedURI = "/results/10-06-2012";
     when(hrefElement.attr("href")).thenReturn(expectedURI);
     when(hrefElementsMock2.getFirst()).thenReturn(hrefElement2);
-    String expectedURI2 = "/results-10-06-2012";
+    String expectedURI2 = "/results/10-06-2012";
     when(hrefElement2.attr("href")).thenReturn(expectedURI2);
 
 
