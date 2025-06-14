@@ -5,8 +5,8 @@ import org.springframework.lang.NonNull;
 import java.util.List;
 import java.util.Optional;
 
-public interface ArchiveScrapper {
+public interface DrawNumberURIScrapper {
 
-  Optional<List<DrawNumberURI>> fetch(@NonNull String baseUrl, @NonNull String archiveYearPath);
+  Optional<List<DrawNumberURI>> fetch( @NonNull String archiveYear);
 
 }

@@ -5,6 +5,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import se.carestra.lotto.eurojackpot.eurojack.scrapper.JsoupScrapper;
 
@@ -18,14 +19,17 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-class EurojackpotArchiveScrapperTest {
+class EurojackpotDrawNumberURIScrapperTest {
 
-  private static final String ARCHIVE_BASE_URL_UNDER_TEST = "https://www.euro-jackpot.net";
-  private static final String ARCHIVE_PATH_URL_UNDER_TEST = "/results-archive-2012";
-  private static final String FULL_PATH_UNDER_TEST = ARCHIVE_BASE_URL_UNDER_TEST + ARCHIVE_PATH_URL_UNDER_TEST;
+  @Value("${eurojackpot.url.base}")
+  private String eurojackpotBaseUrl;
+  @Value("${eurojackpot.url.archive.year.prefix}")
+  private String archiveYearPrefix;
+  private static final String ARCHIVE_YEAR_UNDER_TEST = "2000";
+  private String fullPathUnderTest;
 
-  private EurojackpotArchiveScrapper scrapper;
-  
+  private DrawNumberURIScrapper scrapper;
+
   private JsoupScrapper jsoupMock;
   private Document documentMock;
   private Elements buttonElementsMock;
@@ -37,11 +41,12 @@ class EurojackpotArchiveScrapperTest {
 
   @BeforeEach
   void setUp() {
+    fullPathUnderTest = eurojackpotBaseUrl + archiveYearPrefix + ARCHIVE_YEAR_UNDER_TEST;
     jsoupMock = mock(JsoupScrapper.class);
-    scrapper = new EurojackpotArchiveScrapper(jsoupMock);
+    scrapper = new EurojackpotDrawNumberURIScrapper(eurojackpotBaseUrl, archiveYearPrefix, jsoupMock);
 
     documentMock = mock(Document.class);
-    buttonElementsMock  = mock(Elements.class);
+    buttonElementsMock = mock(Elements.class);
     tableElementsMock = mock(Elements.class);
     firstTableMock = mock(Element.class);
     tableBodyElementsMock = mock(Elements.class);
@@ -51,18 +56,17 @@ class EurojackpotArchiveScrapperTest {
 
   @Test
   void emptyListWhenNoArchiveFound() throws IOException {
-    String archiveUrl = "https://www.eurojackpot.se";
-    Optional<List<DrawNumberURI>> actual = scrapper.fetch(archiveUrl, "");
+    Optional<List<DrawNumberURI>> actual = scrapper.fetch("");
 
     assertTrue(actual.isEmpty());
-    verify(jsoupMock, times(1)).getDocument(archiveUrl);
+    verify(jsoupMock, times(1)).getDocument(eurojackpotBaseUrl + archiveYearPrefix);
   }
 
   @Test
   void emptyListWhenNoTableFound() throws IOException {
     mockButtons(null);
 
-    Optional<List<DrawNumberURI>> actual = scrapper.fetch(ARCHIVE_BASE_URL_UNDER_TEST, ARCHIVE_PATH_URL_UNDER_TEST);
+    Optional<List<DrawNumberURI>> actual = scrapper.fetch(ARCHIVE_YEAR_UNDER_TEST);
 
     assertTrue(actual.isEmpty());
     verifyButtons();
@@ -72,7 +76,7 @@ class EurojackpotArchiveScrapperTest {
   void emptyListWhenNoTableBodyFound() throws IOException {
     mockTable(null);
 
-    Optional<List<DrawNumberURI>> actual = scrapper.fetch(ARCHIVE_BASE_URL_UNDER_TEST, ARCHIVE_PATH_URL_UNDER_TEST);
+    Optional<List<DrawNumberURI>> actual = scrapper.fetch(ARCHIVE_YEAR_UNDER_TEST);
 
     assertTrue(actual.isEmpty());
     verifyTable();
@@ -82,7 +86,7 @@ class EurojackpotArchiveScrapperTest {
   void emptyListWhenNoTableRowsFound() throws IOException {
     mockTableBody(null);
 
-    Optional<List<DrawNumberURI>> actual = scrapper.fetch(ARCHIVE_BASE_URL_UNDER_TEST, ARCHIVE_PATH_URL_UNDER_TEST);
+    Optional<List<DrawNumberURI>> actual = scrapper.fetch(ARCHIVE_YEAR_UNDER_TEST);
 
     assertTrue(actual.isEmpty());
     verifyTableBody();
@@ -93,7 +97,7 @@ class EurojackpotArchiveScrapperTest {
     mockTableBody(tableRowsMock);
     when(tableRowsMock.stream()).thenReturn(Stream.of());
 
-    Optional<List<DrawNumberURI>> actual = scrapper.fetch(ARCHIVE_BASE_URL_UNDER_TEST, ARCHIVE_PATH_URL_UNDER_TEST);
+    Optional<List<DrawNumberURI>> actual = scrapper.fetch(ARCHIVE_YEAR_UNDER_TEST);
 
     assertTrue(actual.isEmpty());
     verifyTableBody();
@@ -105,7 +109,7 @@ class EurojackpotArchiveScrapperTest {
     Element rowElementMock = mock(Element.class);
     mockOneTableRow(rowElementMock, null);
 
-    Optional<List<DrawNumberURI>> actual = scrapper.fetch(ARCHIVE_BASE_URL_UNDER_TEST, ARCHIVE_PATH_URL_UNDER_TEST);
+    Optional<List<DrawNumberURI>> actual = scrapper.fetch(ARCHIVE_YEAR_UNDER_TEST);
 
     assertTrue(actual.isEmpty());
     verifyOneTableRow();
@@ -118,7 +122,7 @@ class EurojackpotArchiveScrapperTest {
     Element anchorElementMock = mock(Element.class);
     mockOneTableRowWithAnchor(rowElementMock, anchorElementMock, null);
 
-    Optional<List<DrawNumberURI>> actual = scrapper.fetch(ARCHIVE_BASE_URL_UNDER_TEST, ARCHIVE_PATH_URL_UNDER_TEST);
+    Optional<List<DrawNumberURI>> actual = scrapper.fetch(ARCHIVE_YEAR_UNDER_TEST);
 
     assertTrue(actual.isEmpty());
     verifyOneTableRow();
@@ -134,7 +138,7 @@ class EurojackpotArchiveScrapperTest {
     mockOneTableRowWithAnchor(rowElementMock, anchorElementMock, hrefElementsMock);
     when(hrefElementsMock.getFirst()).thenReturn(null);
 
-    Optional<List<DrawNumberURI>> actual = scrapper.fetch(ARCHIVE_BASE_URL_UNDER_TEST, ARCHIVE_PATH_URL_UNDER_TEST);
+    Optional<List<DrawNumberURI>> actual = scrapper.fetch(ARCHIVE_YEAR_UNDER_TEST);
 
     assertTrue(actual.isEmpty());
 
@@ -155,7 +159,7 @@ class EurojackpotArchiveScrapperTest {
     when(hrefElementsMock.getFirst()).thenReturn(hrefElement);
     when(hrefElement.attr("href")).thenReturn(null);
 
-    Optional<List<DrawNumberURI>> actual = scrapper.fetch(ARCHIVE_BASE_URL_UNDER_TEST, ARCHIVE_PATH_URL_UNDER_TEST);
+    Optional<List<DrawNumberURI>> actual = scrapper.fetch(ARCHIVE_YEAR_UNDER_TEST);
 
     assertTrue(actual.isEmpty());
 
@@ -178,12 +182,12 @@ class EurojackpotArchiveScrapperTest {
     String expectedURI = "/results/10-06-2012";
     when(hrefElement.attr("href")).thenReturn(expectedURI);
 
-    Optional<List<DrawNumberURI>> actual = scrapper.fetch(ARCHIVE_BASE_URL_UNDER_TEST, ARCHIVE_PATH_URL_UNDER_TEST);
+    Optional<List<DrawNumberURI>> actual = scrapper.fetch(ARCHIVE_YEAR_UNDER_TEST);
 
     assertTrue(actual.isPresent());
     assertEquals(1, actual.get().size());
-    assertEquals(expectedURI, actual.get().getFirst().path());
-    assertEquals(FULL_PATH_UNDER_TEST, actual.get().getFirst().archiveUrl());
+    assertEquals(expectedURI, actual.get().getFirst().resourceUri());
+    assertEquals(fullPathUnderTest, actual.get().getFirst().archiveUrl());
 
     verifyOneTableRow();
     verify(rowElementMock, times(1)).selectFirst("td");
@@ -211,14 +215,14 @@ class EurojackpotArchiveScrapperTest {
     when(hrefElement2.attr("href")).thenReturn(expectedURI2);
 
 
-    Optional<List<DrawNumberURI>> actual = scrapper.fetch(ARCHIVE_BASE_URL_UNDER_TEST, ARCHIVE_PATH_URL_UNDER_TEST);
+    Optional<List<DrawNumberURI>> actual = scrapper.fetch(ARCHIVE_YEAR_UNDER_TEST);
 
     assertTrue(actual.isPresent());
     assertEquals(2, actual.get().size());
-    assertEquals(expectedURI, actual.get().get(0).path());
-    assertEquals(FULL_PATH_UNDER_TEST, actual.get().get(0).archiveUrl());
-    assertEquals(expectedURI2, actual.get().get(1).path());
-    assertEquals(FULL_PATH_UNDER_TEST, actual.get().get(1).archiveUrl());
+    assertEquals(expectedURI, actual.get().get(0).resourceUri());
+    assertEquals(fullPathUnderTest, actual.get().get(0).archiveUrl());
+    assertEquals(expectedURI2, actual.get().get(1).resourceUri());
+    assertEquals(fullPathUnderTest, actual.get().get(1).archiveUrl());
     verifyOneTableRow();
     verify(rowElementMock, times(1)).selectFirst("td");
     verify(anchorElementMock, times(1)).select("a");
@@ -231,16 +235,16 @@ class EurojackpotArchiveScrapperTest {
   }
 
   private void verifyButtons() throws IOException {
-    verify(jsoupMock, times(1)).getDocument(FULL_PATH_UNDER_TEST);
+    verify(jsoupMock, times(1)).getDocument(fullPathUnderTest);
     verify(documentMock, times(1)).select("table");
+    verify(documentMock, times(1)).select("a.btn ");
     verify(buttonElementsMock, times(1)).attr("href");
-    verify(documentMock,  times(1)).select("table");
   }
 
   private void mockButtons(Elements tableElements) throws IOException {
-    when(jsoupMock.getDocument(FULL_PATH_UNDER_TEST)).thenReturn(Optional.of(documentMock));
+    when(jsoupMock.getDocument(fullPathUnderTest)).thenReturn(Optional.of(documentMock));
     when((documentMock.select("a.btn "))).thenReturn(buttonElementsMock);
-    when(buttonElementsMock.attr("href")).thenReturn("/results-archive-2012");
+    when(buttonElementsMock.attr("href")).thenReturn(archiveYearPrefix + ARCHIVE_YEAR_UNDER_TEST);
     when(documentMock.select("table")).thenReturn(tableElements);
   }
 

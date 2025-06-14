@@ -5,27 +5,27 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.TemporalAccessor;
 
-public record DrawNumberURI(String path, String archiveUrl) {
+public record DrawNumberURI(String resourceUri, String archiveUrl) {
   public DrawNumberURI {
-    if (path == null || archiveUrl == null) {
-      throw new IllegalArgumentException("path or archiveUrl cannot be null.");
+    if (resourceUri == null || archiveUrl == null) {
+      throw new IllegalArgumentException("resourceUri and archiveUrl cannot be null.");
     }
-    // validate path contains date
-    parsePath(path);
+    // validate resourceUri contains the draw date
+    parseUriDatePart(resourceUri);
   }
 
-  private static final String PATH_PREFIX = "/results/";
+  private static final String DETAIL_URI_PATH_PREFIX = "/results/";
   private static final DateTimeFormatter DATE_TEXT_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-uuuu");
 
   public LocalDate drawDate() {
-    return LocalDate.from(parsePath(path));
+    return LocalDate.from(parseUriDatePart(resourceUri));
   }
 
-  private TemporalAccessor parsePath(String path) {
+  private TemporalAccessor parseUriDatePart(String path) {
     try {
-      return DATE_TEXT_FORMATTER.parse(path.replaceAll(PATH_PREFIX, ""));
+      return DATE_TEXT_FORMATTER.parse(path.replaceAll(DETAIL_URI_PATH_PREFIX, ""));
     } catch (DateTimeParseException parseException) {
-      throw new IllegalArgumentException("Invalid path format [" + path + "]. Expected '/results/<dd-MM-YYYY>'.");
+      throw new IllegalArgumentException("Invalid resourceUri format [" + path + "]. Expected '/results/<dd-MM-YYYY>'.");
     }
   }
 }

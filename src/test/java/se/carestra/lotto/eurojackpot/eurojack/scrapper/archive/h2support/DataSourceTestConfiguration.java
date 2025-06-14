@@ -12,7 +12,7 @@ import javax.sql.DataSource;
 class DataSourceTestConfiguration {
 
   /**
-   * ### Access the database use ####
+   * ### To access the database use ####
    * Saved Settings: Generic H2 (Embedded)
    * Driver Class : org.h2.Driver
    * JDBC URL     : jdbc:h2:mem:inmemory_test_db

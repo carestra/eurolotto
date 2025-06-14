@@ -1,5 +1,5 @@
 package se.carestra.lotto.eurojackpot.eurojack.scrapper.archive;
 
-enum SelectedYearButton {
+enum ElementSelectResult {
   FOUND, NOT_FOUND
 }
