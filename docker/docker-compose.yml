@@ -1,0 +1,34 @@
+# Assuming having psql client install in MAC,
+# see https://www.timescale.com/blog/how-to-install-psql-on-mac-ubuntu-debian-windows
+# Assuming running colima with docker compose plugin on MACOS:
+# > colima start
+# > colima status
+# #INFO[0005] colima is running using QEMU
+# #INFO[0005] arch: x86_64
+# #INFO[0005] runtime: docker
+# #INFO[0005] mountType: sshfs
+# #INFO[0005] socket: unix:///Users/carestra/.colima/default/docker.sock
+# move to folder containing this file and run: docker compose up
+# or use the psql client: PGPASSWORD=secret psql -U postgres -h localhost -p 5432
+# or connect to the database in your IDE.
+#
+# This files has been copy from https://hub.docker.com/_/postgres
+# with the addition of exposing postgres port 5432 and removing the adminer container
+services:
+
+  db:
+    image: postgres
+    restart: always
+    # set shared memory limit when using docker-compose
+    shm_size: 128mb
+    # or set shared memory limit when deploy via swarm stack
+    #volumes:
+    #  - type: tmpfs
+    #    target: /dev/shm
+    #    tmpfs:
+    #      size: 134217728 # 128*2^20 bytes = 128Mb
+    environment:
+      POSTGRES_PASSWORD: secret
+    ports:
+      - 5432:5432
+
