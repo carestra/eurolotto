@@ -5,15 +5,44 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import se.carestra.lotto.eurojackpot.eurojack.scrapper.EurojackpotArchiveService;
 import se.carestra.lotto.eurojackpot.eurojack.scrapper.ScrapperHeaders;
+import se.carestra.lotto.eurojackpot.eurojack.scrapper.drawdetail.DrawDetailScrapper;
+import se.carestra.lotto.eurojackpot.eurojack.scrapper.drawdetail.DrawDetails;
+import se.carestra.lotto.eurojackpot.eurojack.scrapper.drawdetail.DrawResult;
+
+import java.util.List;
+import java.util.Optional;
 
 @SpringBootApplication
 @EnableConfigurationProperties(ScrapperHeaders.class)
 @EnableJpaAuditing
 public class EurojackApplication {
 
+  /**
+   * Archive
+   * https://www.euro-jackpot.net/results-archive-2012
+   *
+   * Detail
+   * https://www.euro-jackpot.net/results/01-06-2012
+   *
+   * @param args
+   */
   public static void main(String[] args) {
     ConfigurableApplicationContext context = SpringApplication.run(EurojackApplication.class, args);
+
+    // TODO: improve; will be block and service would not be able to do web crawl.
+//    EurojackpotArchiveService service = context.getBean(EurojackpotArchiveService.class);
+//    Optional<List<DrawResult>> optionalResults = service.fetchArchiveYear("2012");
+//
+//    optionalResults
+//        .ifPresent(results ->
+//          results.forEach(System.out::println)
+//            );
+
+//    DrawDetailScrapper detailScrapper = context.getBean(DrawDetailScrapper.class);
+//    Optional<DrawDetails> optionalResults = detailScrapper.fetchDetails("/results/01-06-2012");
+//    optionalResults.ifPresent(System.out::println);
 
 //    DrawNumberURIRepository resourceRepo = context.getBean(DrawNumberURIRepository.class);
 //    DrawNumberURI resource = new DrawNumberURI("/results/15-06-2020", "htt://lotto.mock.dot");

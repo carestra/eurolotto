@@ -17,6 +17,7 @@ import static jakarta.persistence.TemporalType.TIMESTAMP;
 @Entity
 @Data
 @Getter
+@ToString
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -54,4 +55,16 @@ public class DrawResult {
   @Column(name = "archive_url")
   private String archiveUrl;
 
+  public static DrawResult convert(DrawDetails details) {
+    return DrawResult.builder()
+        .drawDate(details.resourceUri().drawDate())
+        .ballsDRawOrder(details.draw().ballNumbers().numbers())
+        .euroBallsDRawOrder(details.draw().euroBallNumbers().numbers())
+        .jackpotAmount(details.jackpotDetail().jackpotAmount().asBigInteger())
+        .currencySymbol(details.jackpotDetail().jackpotAmount().currencySymbol())
+        .rollover(details.jackpotDetail().rollover())
+        .jackpotWinnersCount(details.jackpotDetail().nrOfWinners())
+        .archiveUrl(details.resourceUri().archiveUrl())
+        .build();
+  }
 }

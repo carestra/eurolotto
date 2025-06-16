@@ -2,6 +2,6 @@ package se.carestra.lotto.eurojackpot.eurojack.scrapper.drawdetail;
 
 import java.util.Optional;
 
-interface DrawDetailScrapper {
+public interface DrawDetailScrapper {
   Optional<DrawDetails> fetchDetails(String resourceUri);
 }

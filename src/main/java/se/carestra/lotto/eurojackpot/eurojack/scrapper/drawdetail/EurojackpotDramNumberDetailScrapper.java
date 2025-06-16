@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import se.carestra.lotto.eurojackpot.eurojack.scrapper.JsoupScrapper;
 import se.carestra.lotto.eurojackpot.eurojack.scrapper.archive.DrawNumberURI;
 
@@ -14,6 +15,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 
+@Component
 public class EurojackpotDramNumberDetailScrapper implements DrawDetailScrapper {
   private static final Logger LOGGER = LoggerFactory.getLogger(EurojackpotDramNumberDetailScrapper.class);
 
@@ -33,6 +35,7 @@ public class EurojackpotDramNumberDetailScrapper implements DrawDetailScrapper {
     try {
       Optional<Document> document = scrapper.getDocument(fullPath);
 
+      LOGGER.info("Fetching resource document: {}", resourceUri);
       return getResultElements(document)
           .map(extractDetails())
           .filter(ResultElements::containsAllElements)

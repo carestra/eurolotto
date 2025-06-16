@@ -22,4 +22,8 @@ record AmountCurrency(String formattedAmount, String currencySymbol) {
     String unformattedAmount = formattedAmount.replace(",", "");
     return SWEDISH_NUMBER_FORMAT.format(new BigInteger(unformattedAmount));
   }
+
+  public BigInteger asBigInteger() {
+    return new BigInteger(formattedAmount.replace(",", ""));
+  }
 }
