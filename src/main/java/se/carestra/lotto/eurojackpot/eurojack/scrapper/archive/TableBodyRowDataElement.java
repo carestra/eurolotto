@@ -1,0 +1,24 @@
+package se.carestra.lotto.eurojackpot.eurojack.scrapper.archive;
+
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Stream;
+
+public class TableBodyRowDataElement {
+  private Optional<Stream<Element>> rowsDataStream;
+  public TableBodyRowDataElement(Optional<Elements> tableBodyRowElements) {
+    rowsDataStream = tableBodyRowElements
+        .map(rows ->
+            rows.stream()
+                .map(row -> row.selectFirst("td"))
+                .filter(Objects::nonNull)
+        );
+  }
+
+  public Optional<Stream<Element>> getRowsDataStream() {
+    return rowsDataStream;
+  }
+}
