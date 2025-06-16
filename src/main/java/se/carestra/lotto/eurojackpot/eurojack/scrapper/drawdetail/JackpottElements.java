@@ -9,23 +9,34 @@ import java.util.Optional;
 class JackpottElements {
 
   private final Optional<Element> jackpotAmountElement;
+  private boolean missingValue = false;
 
   public JackpottElements(Optional<Elements> resultsElements) {
     Optional<Elements> jackpotElements = resultsElements
         .map(results -> results.select("div.jackpot-amount"))
         .filter(Objects::nonNull);
 
-    this.jackpotAmountElement = jackpotElements
+    Optional<Elements> elements = jackpotElements
         .map(amount -> amount.select("div.element2"))
-        .filter(Objects::nonNull)
-        .map(jackpotAmount -> jackpotAmount.getFirst());
+        .filter(Objects::nonNull);
+
+    this.jackpotAmountElement = elements
+        .map(jackpotAmount -> {
+          Element first = jackpotAmount.first();
+          if (first == null)
+            missingValue = true;
+          return first;
+        });
   }
 
   public Boolean hasJackpotAmountElement() {
-    return jackpotAmountElement.isPresent();
+    return missingValue || jackpotAmountElement.isPresent();
   }
 
   public Optional<AmountCurrency> getJackpotAmount() {
+    if (missingValue) {
+      return Optional.of(new AmountCurrency("0", "kr"));
+    }
     return jackpotAmountElement
         .map(amount -> amount.text())
         .map(amountString -> {

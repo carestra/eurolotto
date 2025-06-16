@@ -115,14 +115,14 @@ class EurojackpotNumberDetailScrapperTest {
   void emptyWhenBallNumbersNotFound() throws IOException {
     ballsElementsMock = null;
     mockBallsList(unOrderListElementsMock);
-    when(unOrderListElementsMock.getFirst()).thenReturn(allBallsElementMock);
+    when(unOrderListElementsMock.first()).thenReturn(allBallsElementMock);
     when(allBallsElementMock.select("li.ball")).thenReturn(ballsElementsMock);
 
     Optional<DrawDetails> actual = scrapper.fetchDetails(resourceUnderTest);
 
     assertTrue(actual.isEmpty());
     verifyBallsList();
-    verify(unOrderListElementsMock, times(1)).getFirst();
+    verify(unOrderListElementsMock, times(1)).first();
     verify(allBallsElementMock, times(1)).select("li.ball");
   }
 
@@ -131,21 +131,21 @@ class EurojackpotNumberDetailScrapperTest {
   void emptyWhenEuroBallNumbersNotFound() throws IOException {
     euroBallsElementsMock = null;
     mockBallsList(unOrderListElementsMock);
-    when(unOrderListElementsMock.getFirst()).thenReturn(allBallsElementMock);
+    when(unOrderListElementsMock.first()).thenReturn(allBallsElementMock);
     when(allBallsElementMock.select("li.euro")).thenReturn(euroBallsElementsMock);
 
     Optional<DrawDetails> actual = scrapper.fetchDetails(resourceUnderTest);
 
     assertTrue(actual.isEmpty());
     verifyBallsList();
-    verify(unOrderListElementsMock, times(1)).getFirst();
+    verify(unOrderListElementsMock, times(1)).first();
     verify(allBallsElementMock, times(1)).select("li.euro");
   }
 
   @Test
   void emptyWhenOnlyAllBallsFound() throws IOException {
     mockBallsList(unOrderListElementsMock);
-    when(unOrderListElementsMock.getFirst()).thenReturn(allBallsElementMock);
+    when(unOrderListElementsMock.first()).thenReturn(allBallsElementMock);
     when(allBallsElementMock.select("li.ball")).thenReturn(ballsElementsMock);
     when(allBallsElementMock.select("li.euro")).thenReturn(euroBallsElementsMock);
 
@@ -153,7 +153,7 @@ class EurojackpotNumberDetailScrapperTest {
 
     assertTrue(actual.isEmpty());
     verifyBallsList();
-    verify(unOrderListElementsMock, times(1)).getFirst();
+    verify(unOrderListElementsMock, times(1)).first();
     verify(allBallsElementMock, times(1)).select("li.ball");
     verify(allBallsElementMock, times(1)).select("li.euro");
   }
@@ -245,7 +245,7 @@ class EurojackpotNumberDetailScrapperTest {
   @Test
   void foundDrawNumberDetails() throws IOException {
     mockBallsList(unOrderListElementsMock);
-    when(unOrderListElementsMock.getFirst()).thenReturn(allBallsElementMock);
+    when(unOrderListElementsMock.first()).thenReturn(allBallsElementMock);
     mockBalls();
     mockEuroBalls();
     mockRibbonRollover();
@@ -262,7 +262,7 @@ class EurojackpotNumberDetailScrapperTest {
     assertResourceInfo(drawDetails);
 
     verifyBallsList();
-    verify(unOrderListElementsMock, times(1)).getFirst();
+    verify(unOrderListElementsMock, times(1)).first();
     verifyBalls();
     verifyEuroBalls();
 
@@ -274,7 +274,7 @@ class EurojackpotNumberDetailScrapperTest {
   private void verifyJackpotAmount() {
     verify(resultElementsMock, times(1)).select("div.jackpot-amount");
     verify(jackpotElements, times(1)).select("div.element2");
-    verify(jackpotAmountElements, times(1)).getFirst();
+    verify(jackpotAmountElements, times(1)).first();
     verify(jackpotAmountValueElements, times(1)).text();
   }
 
@@ -339,7 +339,7 @@ class EurojackpotNumberDetailScrapperTest {
   private void mockJackpotAmount() {
     when(resultElementsMock.select("div.jackpot-amount")).thenReturn(jackpotElements);
     when(jackpotElements.select("div.element2")).thenReturn(jackpotAmountElements);
-    when(jackpotAmountElements.getFirst()).thenReturn(jackpotAmountValueElements);
+    when(jackpotAmountElements.first()).thenReturn(jackpotAmountValueElements);
     when(jackpotAmountValueElements.text()).thenReturn("kr.340,000,000");
   }
 
@@ -354,7 +354,7 @@ class EurojackpotNumberDetailScrapperTest {
     when(resultElementsMock.select("div.ribbon")).thenReturn(ribbonElementsMock);
     when(ribbonElementsMock.select("span")).thenReturn(ribbonSpanElementsMock);
     when(ribbonSpanElementsMock.getFirst()).thenReturn(rolloverElementsMock);
-    when(rolloverElementsMock.text()).thenReturn("4");
+    when(rolloverElementsMock.text()).thenReturn("4x");
   }
 
   private void mockEuroBalls() {

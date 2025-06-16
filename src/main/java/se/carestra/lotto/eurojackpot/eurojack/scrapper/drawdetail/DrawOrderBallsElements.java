@@ -11,12 +11,20 @@ class DrawOrderBallsElements {
 
   private final Optional<Elements> ballsListElements;
   private final Optional<Elements> euroBallsListElements;
+  private boolean missingValue = false;
 
   public DrawOrderBallsElements(Optional<Elements> resultsElements) {
-    Optional<Element> allBallsElements = resultsElements
+    Optional<Elements> optionalElements = resultsElements
         .map(results -> results.select("ul#ballsDrawn"))
-        .filter(Objects::nonNull)
-        .map(elements -> elements.getFirst());
+        .filter(Objects::nonNull);
+
+    Optional<Element> allBallsElements = optionalElements
+        .map(elements -> {
+          Element first = elements.first();
+          if (first == null)
+            missingValue = true;
+          return first;
+        });
 
     this.ballsListElements = allBallsElements
         .map(allBalls -> allBalls.select("li.ball"));
@@ -26,7 +34,7 @@ class DrawOrderBallsElements {
   }
 
   public Boolean hasBallsListElements() {
-    return ballsListElements.isPresent();
+    return missingValue || ballsListElements.isPresent();
   }
 
   public Boolean hasEuroBallsListElements() {

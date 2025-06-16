@@ -25,6 +25,14 @@ class RibbonElements {
   }
 
   public Optional<Integer> getRollover() {
-    return ribbonSpanElement.map(Element::text).map(Integer::parseInt);
+    return ribbonSpanElement
+        .map(Element::text)
+        .map(text -> {
+          if (text.matches("\\d+"))
+            return text;
+          else
+            return text.substring(0, text.length() - 1);
+        })
+        .map(Integer::parseInt);
   }
 }
