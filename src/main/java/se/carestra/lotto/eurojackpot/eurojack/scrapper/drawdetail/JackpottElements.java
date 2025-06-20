@@ -6,12 +6,12 @@ import org.jsoup.select.Elements;
 import java.util.Objects;
 import java.util.Optional;
 
-class JackpottElements {
+record JackpottElements(Optional<Elements> resultsElements) {
 
-  private final Optional<Element> jackpotAmountElement;
-  private boolean missingValue = false;
+  private static Optional<Element> jackpotAmountElement;
+  private static boolean missingValue = false;
 
-  public JackpottElements(Optional<Elements> resultsElements) {
+  JackpottElements {
     Optional<Elements> jackpotElements = resultsElements
         .map(results -> results.select("div.jackpot-amount"))
         .filter(Objects::nonNull);
@@ -20,7 +20,7 @@ class JackpottElements {
         .map(amount -> amount.select("div.element2"))
         .filter(Objects::nonNull);
 
-    this.jackpotAmountElement = elements
+    jackpotAmountElement = elements
         .map(jackpotAmount -> {
           Element first = jackpotAmount.first();
           if (first == null)

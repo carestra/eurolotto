@@ -6,15 +6,15 @@ import org.jsoup.select.Elements;
 import java.util.Objects;
 import java.util.Optional;
 
-class RibbonElements {
-  private final Optional<Element> ribbonSpanElement;
+record RibbonElements(Optional<Elements> resultsElements) {
+  private static Optional<Element> ribbonSpanElement;
 
-  public RibbonElements(Optional<Elements> resultsElements) {
+  RibbonElements {
     Optional<Elements> ribbonElements = resultsElements
         .map(results -> results.select("div.ribbon"))
         .filter(Objects::nonNull);
 
-    this.ribbonSpanElement = ribbonElements
+    ribbonSpanElement = ribbonElements
         .map(ribbon -> ribbon.select("span"))
         .filter(Objects::nonNull)
         .map(elements -> elements.getFirst());

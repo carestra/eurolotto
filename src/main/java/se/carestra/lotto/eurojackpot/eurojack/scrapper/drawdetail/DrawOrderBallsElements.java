@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-class DrawOrderBallsElements {
+record DrawOrderBallsElements(Optional<Elements> resultsElements) {
 
-  private final Optional<Elements> ballsListElements;
-  private final Optional<Elements> euroBallsListElements;
-  private boolean missingValue = false;
+  private static Optional<Elements> ballsListElements;
+  private static Optional<Elements> euroBallsListElements;
+  private static boolean missingValue = false;
 
-  public DrawOrderBallsElements(Optional<Elements> resultsElements) {
+  DrawOrderBallsElements {
     Optional<Elements> optionalElements = resultsElements
         .map(results -> results.select("ul#ballsDrawn"))
         .filter(Objects::nonNull);
@@ -26,10 +26,10 @@ class DrawOrderBallsElements {
           return first;
         });
 
-    this.ballsListElements = allBallsElements
+    ballsListElements = allBallsElements
         .map(allBalls -> allBalls.select("li.ball"));
 
-    this.euroBallsListElements = allBallsElements
+    euroBallsListElements = allBallsElements
         .map(allBalls -> allBalls.select("li.euro"));
   }
 
