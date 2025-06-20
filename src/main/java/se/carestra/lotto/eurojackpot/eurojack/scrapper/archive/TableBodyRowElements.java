@@ -6,9 +6,10 @@ import org.jsoup.select.Elements;
 import java.util.Objects;
 import java.util.Optional;
 
-public class TableBodyRowElements {
-  private Optional<Elements> tableBodyRowElements;
-  public TableBodyRowElements(Optional<Element> tableBodyElement) {
+record TableBodyRowElements(Optional<Element> tableBodyElement) {
+  private static Optional<Elements> tableBodyRowElements;
+
+  TableBodyRowElements {
     tableBodyRowElements = tableBodyElement
         .map(table -> table.select("tr"))
         .filter(Objects::nonNull);

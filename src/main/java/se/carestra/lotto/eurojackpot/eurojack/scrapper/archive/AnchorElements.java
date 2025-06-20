@@ -6,10 +6,10 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-public class AnchorElements {
-  private Optional<Stream<Element>> anchorsStream;
+record AnchorElements(Optional<Stream<Element>> rowsDataStream)  {
+  private static Optional<Stream<Element>> anchorsStream;
 
-  public AnchorElements(Optional<Stream<Element>> rowsDataStream) {
+  AnchorElements{
     anchorsStream = rowsDataStream
         .map(rowStream ->
             rowStream

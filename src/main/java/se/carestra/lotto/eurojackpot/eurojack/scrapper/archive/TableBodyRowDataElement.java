@@ -7,9 +7,10 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-public class TableBodyRowDataElement {
-  private Optional<Stream<Element>> rowsDataStream;
-  public TableBodyRowDataElement(Optional<Elements> tableBodyRowElements) {
+record TableBodyRowDataElement(Optional<Elements> tableBodyRowElements) {
+  private static Optional<Stream<Element>> rowsDataStream;
+
+  TableBodyRowDataElement {
     rowsDataStream = tableBodyRowElements
         .map(rows ->
             rows.stream()

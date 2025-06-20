@@ -7,10 +7,10 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-public class HrefElements {
-  private Optional<Stream<String>> hrefsStream;
+record HrefElements(Optional<Stream<Element>> anchorsStream) {
+  private static Optional<Stream<String>> hrefsStream;
 
-  public HrefElements(Optional<Stream<Element>> anchorsStream) {
+  HrefElements {
     hrefsStream = anchorsStream
         .map(elementStream ->
             elementStream

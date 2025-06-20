@@ -37,7 +37,9 @@ public class EurojackpotDrawNumberURIScrapper implements DrawNumberURIScrapper {
 
       return Optional.ofNullable(document)
           .flatMap(optionalDocument -> {
+            // TODO: verify that year has been selected
             SelectedYearElement yearSelected = new SelectedYearElement(optionalDocument);
+            // TODO: Use builder pattern?
             TableElements table = new TableElements(optionalDocument);
             TableBodyElement body = new TableBodyElement(table.getTableElements());
             TableBodyRowElements rows = new TableBodyRowElements(body.getTableBody());

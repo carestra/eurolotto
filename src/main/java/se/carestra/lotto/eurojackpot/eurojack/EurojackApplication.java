@@ -22,7 +22,7 @@ public class EurojackApplication {
   /**
    * Archive
    * https://www.euro-jackpot.net/results-archive-2012
-   *
+   * <p>
    * Detail
    * https://www.euro-jackpot.net/results/01-06-2012
    *
@@ -34,11 +34,7 @@ public class EurojackApplication {
     // TODO: improve; will be block and service would not be able to do web crawl.
 //    EurojackpotArchiveService service = context.getBean(EurojackpotArchiveService.class);
 //    Optional<List<DrawResult>> optionalResults = service.fetchArchiveYear("2012");
-//
-//    optionalResults
-//        .ifPresent(results ->
-//          results.forEach(System.out::println)
-//            );
+//    optionalResults.ifPresent(results -> results.forEach(System.out::println));
 
 //    DrawDetailScrapper detailScrapper = context.getBean(DrawDetailScrapper.class);
 //    Optional<DrawDetails> optionalResults = detailScrapper.fetchDetails("/results/01-06-2012");

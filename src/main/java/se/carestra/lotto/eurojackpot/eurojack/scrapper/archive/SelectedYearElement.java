@@ -6,11 +6,11 @@ import org.jsoup.select.Elements;
 import java.util.Objects;
 import java.util.Optional;
 
-public class SelectedYearElement {
-    private final Optional<Elements> anchorsElements;
+record SelectedYearElement(Optional<Document> documentElement) {
+  private static Optional<Elements> anchorsElements;
 
-  public SelectedYearElement(Optional<Document> documentElement) {
-    this.anchorsElements = documentElement
+  SelectedYearElement {
+    anchorsElements = documentElement
         .map(document -> document.select("a.btn "))
         .filter(anchorElements -> anchorElements.hasClass("btn--grey"))
         .filter(Objects::nonNull);
@@ -18,7 +18,7 @@ public class SelectedYearElement {
 
   public Boolean isSelected(String archiveYear) {
     return anchorsElements
-        .map( anchorsElement -> anchorsElement.attr("href"))
+        .map(anchorsElement -> anchorsElement.attr("href"))
         .filter(Objects::nonNull)
         .filter(href -> href.contains(archiveYear))
         .isPresent();
@@ -26,7 +26,7 @@ public class SelectedYearElement {
 
   public Optional<String> getHref() {
     return anchorsElements
-        .map( anchorsElement -> anchorsElement.attr("href"))
+        .map(anchorsElement -> anchorsElement.attr("href"))
         .filter(Objects::nonNull);
   }
 }
