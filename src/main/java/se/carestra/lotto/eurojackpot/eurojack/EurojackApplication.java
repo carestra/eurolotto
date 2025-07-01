@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import se.carestra.lotto.eurojackpot.eurojack.scrapper.ScrapperHeaders;
+import se.carestra.lotto.eurojackpot.eurojack.scrapper.api.ScrapperHeaders;
 
 @SpringBootApplication
 @EnableConfigurationProperties(ScrapperHeaders.class)

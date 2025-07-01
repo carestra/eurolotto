@@ -9,7 +9,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import se.carestra.lotto.eurojackpot.eurojack.archive.api.DrawNumberURI;
 import se.carestra.lotto.eurojackpot.eurojack.archive.api.DrawNumberURIScrapper;
-import se.carestra.lotto.eurojackpot.eurojack.scrapper.JsoupScrapper;
+import se.carestra.lotto.eurojackpot.eurojack.scrapper.api.JsoupScrapper;
 
 import java.io.IOException;
 import java.util.List;

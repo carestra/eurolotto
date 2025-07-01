@@ -5,15 +5,17 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import se.carestra.lotto.eurojackpot.eurojack.scrapper.api.JsoupScrapper;
+import se.carestra.lotto.eurojackpot.eurojack.scrapper.api.ScrapperHeaders;
 
 import java.io.IOException;
 import java.util.Optional;
 
 @Component
-public class JsoupScrapperImpl implements JsoupScrapper {
+class JsoupScrapperImpl implements JsoupScrapper {
   private final ScrapperHeaders headers;
 
-  public JsoupScrapperImpl(@Autowired ScrapperHeaders headers) {
+  JsoupScrapperImpl(@Autowired ScrapperHeaders headers) {
     this.headers = headers;
   }
 

@@ -1,4 +1,4 @@
-package se.carestra.lotto.eurojackpot.eurojack.scrapper;
+package se.carestra.lotto.eurojackpot.eurojack.scrapper.api;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
