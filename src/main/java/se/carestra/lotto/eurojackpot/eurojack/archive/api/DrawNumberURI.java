@@ -1,4 +1,4 @@
-package se.carestra.lotto.eurojackpot.eurojack.archive;
+package se.carestra.lotto.eurojackpot.eurojack.archive.api;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

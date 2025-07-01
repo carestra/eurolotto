@@ -1,4 +1,4 @@
-package se.carestra.lotto.eurojackpot.eurojack.archive.h2support;
+package se.carestra.lotto.eurojackpot.eurojack.archive;
 
 import org.h2.tools.Server;
 import org.junit.jupiter.api.BeforeAll;
@@ -7,7 +7,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ContextConfiguration;
-import se.carestra.lotto.eurojackpot.eurojack.archive.DrawNumberURIRepository;
 
 import java.sql.SQLException;
 

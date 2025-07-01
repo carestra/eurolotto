@@ -2,7 +2,7 @@ package se.carestra.lotto.eurojackpot.eurojack.archive;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.test.context.jdbc.Sql;
-import se.carestra.lotto.eurojackpot.eurojack.archive.h2support.H2EmbeddedDataSourceSupport;
+import se.carestra.lotto.eurojackpot.eurojack.archive.api.DrawNumberURI;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

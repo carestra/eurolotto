@@ -7,6 +7,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import se.carestra.lotto.eurojackpot.eurojack.archive.api.DrawNumberURI;
+import se.carestra.lotto.eurojackpot.eurojack.archive.api.DrawNumberURIScrapper;
 import se.carestra.lotto.eurojackpot.eurojack.scrapper.JsoupScrapper;
 
 import java.io.IOException;

@@ -1,6 +1,7 @@
 package se.carestra.lotto.eurojackpot.eurojack.archive;
 
 import org.jsoup.nodes.Element;
+import se.carestra.lotto.eurojackpot.eurojack.archive.api.DrawNumberURI;
 
 import java.util.List;
 import java.util.Objects;

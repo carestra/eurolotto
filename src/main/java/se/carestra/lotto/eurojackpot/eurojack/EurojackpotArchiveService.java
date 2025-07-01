@@ -2,8 +2,8 @@ package se.carestra.lotto.eurojackpot.eurojack;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import se.carestra.lotto.eurojackpot.eurojack.archive.DrawNumberURI;
-import se.carestra.lotto.eurojackpot.eurojack.archive.DrawNumberURIScrapper;
+import se.carestra.lotto.eurojackpot.eurojack.archive.api.DrawNumberURI;
+import se.carestra.lotto.eurojackpot.eurojack.archive.api.DrawNumberURIScrapper;
 import se.carestra.lotto.eurojackpot.eurojack.drawdetail.DrawDetailScrapper;
 import se.carestra.lotto.eurojackpot.eurojack.drawdetail.DrawDetails;
 import se.carestra.lotto.eurojackpot.eurojack.drawdetail.DrawResult;

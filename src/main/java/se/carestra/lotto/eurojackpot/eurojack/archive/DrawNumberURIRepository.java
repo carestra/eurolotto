@@ -5,11 +5,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Service;
+import se.carestra.lotto.eurojackpot.eurojack.archive.api.DrawNumberURI;
 
 import java.sql.Date;
 
 @Service
-public class DrawNumberURIRepository {
+class DrawNumberURIRepository {
 
   private static final String SAVE_SQL_QUERY =
       "INSERT INTO draw_number_uri(draw_date, detail_uri, archive_url) VALUES(?,?,?);";
@@ -19,7 +20,7 @@ public class DrawNumberURIRepository {
 
   private final JdbcTemplate jdbcTemplate;
 
-  public DrawNumberURIRepository(@Autowired JdbcTemplate jdbcTemplate) {
+  DrawNumberURIRepository(@Autowired JdbcTemplate jdbcTemplate) {
     this.jdbcTemplate = jdbcTemplate;
     this.jdbcTemplate.afterPropertiesSet();
   }
