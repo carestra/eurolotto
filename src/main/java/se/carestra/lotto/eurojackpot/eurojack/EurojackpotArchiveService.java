@@ -4,13 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.carestra.lotto.eurojackpot.eurojack.archive.api.DrawNumberURI;
 import se.carestra.lotto.eurojackpot.eurojack.archive.api.DrawNumberURIScrapper;
-import se.carestra.lotto.eurojackpot.eurojack.drawdetail.DrawDetailScrapper;
-import se.carestra.lotto.eurojackpot.eurojack.drawdetail.DrawDetails;
-import se.carestra.lotto.eurojackpot.eurojack.drawdetail.DrawResult;
+import se.carestra.lotto.eurojackpot.eurojack.drawdetail.api.DrawDetailScrapper;
+import se.carestra.lotto.eurojackpot.eurojack.drawdetail.api.DrawDetails;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class EurojackpotArchiveService {
@@ -24,25 +22,17 @@ public class EurojackpotArchiveService {
     this.drawDetailScrapper = drawDetailScrapper;
   }
 
-  public Optional<List<DrawResult>> fetchArchiveYear(String archiveYear) {
+  public Optional<List<DrawDetails>> fetchArchiveYear(String archiveYear) {
     Optional<List<DrawNumberURI>> resourcesOptional = resourceScrapper.fetch(archiveYear);
 
-    Optional<List<DrawDetails>> drawDetails =
-        resourcesOptional
-            .map(resources ->
-                resources.stream()
-                    .map(resource ->
-                        drawDetailScrapper.fetchDetails(resource.resourceUri())
-                    )
-                    .flatMap(Optional::stream)
-                    .toList()
-            );
-
-    return drawDetails
-        .map(details ->
-            details.stream()
-                .map(DrawResult::convert)
-                .collect(Collectors.toList())
+    return resourcesOptional
+        .map(resources ->
+            resources.stream()
+                .map(resource ->
+                    drawDetailScrapper.fetchDetails(resource.resourceUri())
+                )
+                .flatMap(Optional::stream)
+                .toList()
         );
   }
 

@@ -1,4 +1,4 @@
-package se.carestra.lotto.eurojackpot.eurojack.drawdetail;
+package se.carestra.lotto.eurojackpot.eurojack.drawdetail.api;
 
 import java.util.Optional;
 

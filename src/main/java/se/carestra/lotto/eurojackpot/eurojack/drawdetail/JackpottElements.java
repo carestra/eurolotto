@@ -2,6 +2,7 @@ package se.carestra.lotto.eurojackpot.eurojack.drawdetail;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import se.carestra.lotto.eurojackpot.eurojack.drawdetail.api.AmountCurrency;
 
 import java.util.Objects;
 import java.util.Optional;

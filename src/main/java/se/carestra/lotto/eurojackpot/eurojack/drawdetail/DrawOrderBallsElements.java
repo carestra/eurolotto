@@ -2,6 +2,9 @@ package se.carestra.lotto.eurojackpot.eurojack.drawdetail;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import se.carestra.lotto.eurojackpot.eurojack.drawdetail.api.BallNumbers;
+import se.carestra.lotto.eurojackpot.eurojack.drawdetail.api.EuroBallNumbers;
+import se.carestra.lotto.eurojackpot.eurojack.drawdetail.api.EurojackpotDraw;
 
 import java.util.List;
 import java.util.Objects;

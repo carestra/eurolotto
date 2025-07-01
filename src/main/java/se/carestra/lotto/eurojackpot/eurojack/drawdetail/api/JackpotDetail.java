@@ -1,7 +1,7 @@
-package se.carestra.lotto.eurojackpot.eurojack.drawdetail;
+package se.carestra.lotto.eurojackpot.eurojack.drawdetail.api;
 
-record JackpotDetail(AmountCurrency jackpotAmount, Integer rollover, Integer nrOfWinners) {
-  JackpotDetail {
+public record JackpotDetail(AmountCurrency jackpotAmount, Integer rollover, Integer nrOfWinners) {
+  public JackpotDetail {
     if (jackpotAmount == null) {
       throw new NullPointerException("jackpotAmount cannot be null.");
     }

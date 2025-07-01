@@ -1,11 +1,9 @@
-package se.carestra.lotto.eurojackpot.eurojack.service;
+package se.carestra.lotto.eurojackpot.eurojack.drawdetail;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import se.carestra.lotto.eurojackpot.eurojack.drawdetail.DrawDetailsRepository;
-import se.carestra.lotto.eurojackpot.eurojack.drawdetail.DrawResult;
 
 import java.math.BigInteger;
 import java.time.LocalDate;

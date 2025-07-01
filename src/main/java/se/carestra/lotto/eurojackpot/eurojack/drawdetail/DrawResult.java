@@ -6,6 +6,7 @@ import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import se.carestra.lotto.eurojackpot.eurojack.drawdetail.api.DrawDetails;
 
 import java.math.BigInteger;
 import java.time.LocalDate;
@@ -23,7 +24,7 @@ import static jakarta.persistence.TemporalType.TIMESTAMP;
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "draw_result")
-public class DrawResult {
+class DrawResult {
   @Id
   @Column(name = "draw_date")
   private LocalDate drawDate;

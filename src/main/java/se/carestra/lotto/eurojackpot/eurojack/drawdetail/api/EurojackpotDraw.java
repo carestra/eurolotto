@@ -1,7 +1,8 @@
-package se.carestra.lotto.eurojackpot.eurojack.drawdetail;
+package se.carestra.lotto.eurojackpot.eurojack.drawdetail.api;
 
-record EurojackpotDraw(BallNumbers ballNumbers, EuroBallNumbers euroBallNumbers) {
-  EurojackpotDraw {
+
+public record EurojackpotDraw(BallNumbers ballNumbers, EuroBallNumbers euroBallNumbers) {
+  public EurojackpotDraw {
     if (ballNumbers == null) {
       throw new IllegalArgumentException("drawBalls cannot be null.");
     }

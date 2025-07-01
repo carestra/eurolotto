@@ -1,14 +1,14 @@
-package se.carestra.lotto.eurojackpot.eurojack.drawdetail;
+package se.carestra.lotto.eurojackpot.eurojack.drawdetail.api;
 
 import java.math.BigInteger;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-record AmountCurrency(String formattedAmount, String currencySymbol) {
+public record AmountCurrency(String formattedAmount, String currencySymbol) {
   private static final Locale SWEDISH_LOCALE = new Locale.Builder().setLanguage("sv").setRegion("SE").build();
   private static final NumberFormat SWEDISH_NUMBER_FORMAT = NumberFormat.getCurrencyInstance(SWEDISH_LOCALE);
 
-  AmountCurrency {
+  public AmountCurrency {
     if (formattedAmount == null) {
       throw new IllegalArgumentException("Amount cannot be null.");
     }
