@@ -6,7 +6,8 @@ import org.jsoup.select.Elements;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.modulith.test.ApplicationModuleTest;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import se.carestra.lotto.eurojackpot.eurojack.archive.api.DrawNumberURI;
 import se.carestra.lotto.eurojackpot.eurojack.archive.api.DrawNumberURIScrapper;
 import se.carestra.lotto.eurojackpot.eurojack.scrapper.api.JsoupScrapper;
@@ -20,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
+@ApplicationModuleTest
 class EurojackpotDrawNumberURIScrapperTest {
 
   @Value("${eurojackpot.url.base}")
@@ -32,9 +33,9 @@ class EurojackpotDrawNumberURIScrapperTest {
 
   private DrawNumberURIScrapper scrapper;
 
+  @MockitoBean
   private JsoupScrapper jsoupMock;
   private Document documentMock;
-  private Elements buttonElementsMock;
   private Elements tableElementsMock;
   private Element firstTableMock;
   private Elements tableBodyElementsMock;
@@ -48,7 +49,6 @@ class EurojackpotDrawNumberURIScrapperTest {
     scrapper = new EurojackpotDrawNumberURIScrapper(eurojackpotBaseUrl, archiveYearPrefix, jsoupMock);
 
     documentMock = mock(Document.class);
-    buttonElementsMock = mock(Elements.class);
     tableElementsMock = mock(Elements.class);
     firstTableMock = mock(Element.class);
     tableBodyElementsMock = mock(Elements.class);

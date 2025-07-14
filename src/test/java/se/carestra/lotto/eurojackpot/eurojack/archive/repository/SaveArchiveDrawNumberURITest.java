@@ -1,4 +1,4 @@
-package se.carestra.lotto.eurojackpot.eurojack.archive;
+package se.carestra.lotto.eurojackpot.eurojack.archive.repository;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.test.context.jdbc.Sql;
