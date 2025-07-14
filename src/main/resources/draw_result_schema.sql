@@ -3,8 +3,8 @@ drop table if exists draw_result;
 create table if not exists draw_result
 (
     draw_date                   date      not null,
-    balls_draw_order            smallint[],
-    euroballs_draw_order        smallint[],
+    balls_draw_order            smallint,
+    euroballs_draw_order        smallint,
     rollover                    smallint,
     jackpot_amount              bigint,
     currency_symbol             text,
