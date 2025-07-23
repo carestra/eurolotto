@@ -16,7 +16,7 @@
 # with the addition of exposing postgres port 5432 and removing the adminer container
 services:
 
-  db:
+  postgres-db:
     image: postgres
     restart: always
     # set shared memory limit when using docker-compose
