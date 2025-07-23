@@ -7,9 +7,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Optional;
 
-record TableElements(Optional<Document> documentElement) {
-  private static Optional<Element> tableElements;
-
+record TableElements(Optional<Document> documentElement, Optional<Element> tableElements) {
   TableElements {
     tableElements = documentElement
         .map(document -> document.select("table"))
@@ -19,9 +17,5 @@ record TableElements(Optional<Document> documentElement) {
 
   public Boolean hasTableElements() {
     return tableElements.isPresent();
-  }
-
-  public Optional<Element> getTableElements() {
-    return tableElements;
   }
 }

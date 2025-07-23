@@ -6,9 +6,7 @@ import org.jsoup.select.Elements;
 import java.util.Objects;
 import java.util.Optional;
 
-record SelectedYearElement(Optional<Document> documentElement) {
-  private static Optional<Elements> anchorsElements;
-
+record SelectedYearElement(Optional<Document> documentElement, Optional<Elements> anchorsElements) {
   SelectedYearElement {
     anchorsElements = documentElement
         .map(document -> document.select("a.btn "))

@@ -6,9 +6,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-record AnchorElements(Optional<Stream<Element>> rowsDataStream)  {
-  private static Optional<Stream<Element>> anchorsStream;
-
+record AnchorElements(Optional<Stream<Element>> rowsDataStream, Optional<Stream<Element>> anchorsStream)  {
   AnchorElements{
     anchorsStream = rowsDataStream
         .map(rowStream ->
@@ -18,9 +16,5 @@ record AnchorElements(Optional<Stream<Element>> rowsDataStream)  {
                 .map(anchors -> anchors.getFirst())
                 .filter(Objects::nonNull)
         );
-  }
-
-  public Optional<Stream<Element>> getAnchorsStream() {
-    return anchorsStream;
   }
 }

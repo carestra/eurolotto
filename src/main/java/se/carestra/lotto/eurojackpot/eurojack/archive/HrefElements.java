@@ -8,9 +8,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-record HrefElements(Optional<Stream<Element>> anchorsStream) {
-  private static Optional<Stream<String>> hrefsStream;
-
+record HrefElements(Optional<Stream<Element>> anchorsStream, Optional<Stream<String>> hrefsStream) {
   HrefElements {
     hrefsStream = anchorsStream
         .map(elementStream ->

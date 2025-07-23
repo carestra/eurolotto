@@ -7,9 +7,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-record TableBodyRowDataElement(Optional<Elements> tableBodyRowElements) {
-  private static Optional<Stream<Element>> rowsDataStream;
-
+record TableBodyRowDataElement(Optional<Elements> tableBodyRowElements, Optional<Stream<Element>> rowsDataStream) {
   TableBodyRowDataElement {
     rowsDataStream = tableBodyRowElements
         .map(rows ->
@@ -17,9 +15,5 @@ record TableBodyRowDataElement(Optional<Elements> tableBodyRowElements) {
                 .map(row -> row.selectFirst("td"))
                 .filter(Objects::nonNull)
         );
-  }
-
-  public Optional<Stream<Element>> getRowsDataStream() {
-    return rowsDataStream;
   }
 }

@@ -6,9 +6,7 @@ import org.jsoup.select.Elements;
 import java.util.Objects;
 import java.util.Optional;
 
-record TableBodyRowElements(Optional<Element> tableBodyElement) {
-  private static Optional<Elements> tableBodyRowElements;
-
+record TableBodyRowElements(Optional<Element> tableBodyElement, Optional<Elements> tableBodyRowElements) {
   TableBodyRowElements {
     tableBodyRowElements = tableBodyElement
         .map(table -> table.select("tr"))
@@ -17,9 +15,5 @@ record TableBodyRowElements(Optional<Element> tableBodyElement) {
 
   public Boolean hasTableBodyRowElements() {
     return tableBodyRowElements.isPresent();
-  }
-
-  public Optional<Elements> getTableBodyRowElements() {
-    return tableBodyRowElements;
   }
 }

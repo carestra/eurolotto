@@ -40,14 +40,14 @@ class EurojackpotDrawNumberURIScrapper implements DrawNumberURIScrapper {
       return Optional.ofNullable(document)
           .flatMap(optionalDocument -> {
             // TODO: verify that year has been selected
-            SelectedYearElement yearSelected = new SelectedYearElement(optionalDocument);
+            SelectedYearElement yearSelected = new SelectedYearElement(optionalDocument, Optional.empty());
             // TODO: Use builder pattern?
-            TableElements table = new TableElements(optionalDocument);
-            TableBodyElement body = new TableBodyElement(table.getTableElements());
-            TableBodyRowElements rows = new TableBodyRowElements(body.getTableBody());
-            TableBodyRowDataElement data = new TableBodyRowDataElement(rows.getTableBodyRowElements());
-            AnchorElements anchors = new AnchorElements(data.getRowsDataStream());
-            HrefElements hrefs = new HrefElements(anchors.getAnchorsStream());
+            TableElements table = new TableElements(optionalDocument, Optional.empty());
+            TableBodyElement body = new TableBodyElement(table.tableElements(), Optional.empty());
+            TableBodyRowElements rows = new TableBodyRowElements(body.tableBodyElement(), Optional.empty());
+            TableBodyRowDataElement data = new TableBodyRowDataElement(rows.tableBodyRowElements(), Optional.empty());
+            AnchorElements anchors = new AnchorElements(data.rowsDataStream(), Optional.empty());
+            HrefElements hrefs = new HrefElements(anchors.anchorsStream(), Optional.empty());
             return hrefs.getDrawNumberURIs(fullPath);
           });
     } catch (IOException e) {
