@@ -1,4 +1,4 @@
-package se.carestra.lotto.eurojackpot.eurojack.drawdetail;
+package se.carestra.lotto.eurojackpot.eurojack.drawdetail.repository;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,14 +18,14 @@ class DrawDetailsRepositoryTest {
   @Autowired
   private DrawDetailsRepository repository;
 
-  private DrawResult drawResult;
+  private DrawResultDetail drawResultDetail;
 
   @BeforeEach
   void setUp() {
-    drawResult = DrawResult.builder()
+    drawResultDetail = DrawResultDetail.builder()
         .drawDate(LocalDate.now())
-        .ballsDRawOrder(List.of(40,5,27,9,18))
-        .euroBallsDRawOrder(List.of(2,11))
+        .ballsDrawOrder(List.of(40,5,27,9,18))
+        .euroBallsDrawOrder(List.of(2,11))
         .jackpotAmount(new BigInteger("300000"))
         .currencySymbol("kr")
         .rollover(0)
@@ -36,9 +36,9 @@ class DrawDetailsRepositoryTest {
 
   @Test
   void saveOneDrawDetails() {
-    DrawResult saved = repository.save(drawResult);
+    DrawResultDetail saved = repository.save(drawResultDetail);
 
     assertNotNull(saved);
-    assertEquals(drawResult.getDrawDate(), saved.getDrawDate());
+    assertEquals(drawResultDetail.getDrawDate(), saved.getDrawDate());
   }
 }

@@ -1,4 +1,4 @@
-package se.carestra.lotto.eurojackpot.eurojack.drawdetail;
+package se.carestra.lotto.eurojackpot.eurojack.drawdetail.repository;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -6,7 +6,7 @@ import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import se.carestra.lotto.eurojackpot.eurojack.drawdetail.api.DrawDetails;
+import se.carestra.lotto.eurojackpot.eurojack.drawdetail.api.*;
 
 import java.math.BigInteger;
 import java.time.LocalDate;
@@ -23,8 +23,8 @@ import static jakarta.persistence.TemporalType.TIMESTAMP;
 @AllArgsConstructor
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "draw_result")
-class DrawResult {
+@Table(name = "draw_detail")
+public class DrawResultDetail {
   @Id
   @Column(name = "draw_date")
   private LocalDate drawDate;
@@ -43,9 +43,9 @@ class DrawResult {
   private LocalDateTime modifiedDate;
 
   @Column(name = "balls_draw_order")
-  private List<Integer> ballsDRawOrder;
+  private List<Integer> ballsDrawOrder;
   @Column(name = "euroballs_draw_order")
-  private List<Integer> euroBallsDRawOrder;
+  private List<Integer> euroBallsDrawOrder;
   @Column(name = "jackpot_amount")
   private BigInteger jackpotAmount;
   @Column(name = "currency_symbol")
@@ -53,19 +53,14 @@ class DrawResult {
   private Integer rollover;
   @Column(name = "number_of_jackpot_winners")
   private Integer jackpotWinnersCount;
+  @Column(name = "resource_uri")
+  private String resourceUri;
   @Column(name = "archive_url")
   private String archiveUrl;
 
-  public static DrawResult convert(DrawDetails details) {
-    return DrawResult.builder()
-        .drawDate(details.drawDate())
-        .ballsDRawOrder(details.draw().ballNumbers().numbers())
-        .euroBallsDRawOrder(details.draw().euroBallNumbers().numbers())
-        .jackpotAmount(details.jackpotDetail().jackpotAmount().asBigInteger())
-        .currencySymbol(details.jackpotDetail().jackpotAmount().currencySymbol())
-        .rollover(details.jackpotDetail().rollover())
-        .jackpotWinnersCount(details.jackpotDetail().nrOfWinners())
-        .archiveUrl(details.fullPath())
-        .build();
+  public DrawDetails convert() {
+    EurojackpotDraw draw = new EurojackpotDraw(new BallNumbers(ballsDrawOrder), new EuroBallNumbers(euroBallsDrawOrder));
+    JackpotDetail jackpot = new JackpotDetail(new AmountCurrency(jackpotAmount.toString(), currencySymbol), rollover, jackpotWinnersCount);
+    return new DrawDetails(draw, jackpot, resourceUri, archiveUrl);
   }
 }
