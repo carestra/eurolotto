@@ -3,6 +3,7 @@ package se.carestra.lotto.eurojackpot.eurojack.archive;
 import org.jsoup.nodes.Element;
 import se.carestra.lotto.eurojackpot.eurojack.archive.api.DrawNumberURI;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -25,6 +26,7 @@ record HrefElements(Optional<Stream<Element>> anchorsStream, Optional<Stream<Str
         .map(hrefs ->
             hrefs
                 .map(href -> new DrawNumberURI(href, fullPath))
+                .sorted(Comparator.comparing(DrawNumberURI::drawDate, Comparator.naturalOrder()))
                 .toList()
         )
         .filter(resources -> !resources.isEmpty());
