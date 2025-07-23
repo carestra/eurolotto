@@ -15,13 +15,13 @@ import java.util.Optional;
 public class DrawNumberURIRepository {
 
   private static final String SAVE_SQL_QUERY =
-      "INSERT INTO draw_number_uri(draw_date, detail_uri, archive_url) VALUES(?,?,?);";
+      "INSERT INTO draw_resource_uri(draw_date, resource_uri, archive_url) VALUES(?,?,?);";
 
   private static final String RETRIEVE_SQL_QUERY =
-      "SELECT * FROM draw_number_uri WHERE draw_date=?;";
+      "SELECT * FROM draw_resource_uri WHERE draw_date=?;";
 
   private static final String EXIST_DATE_SQL_QUERY =
-      "SELECT EXISTS(SELECT * FROM draw_number_uri where EXTRACT(YEAR FROM draw_date)=?);";
+      "SELECT EXISTS(SELECT * FROM draw_resource_uri where EXTRACT(YEAR FROM draw_date)=?);";
 
   private static final int BATCH_SIZE = 26;
 
@@ -60,7 +60,7 @@ public class DrawNumberURIRepository {
         ps -> ps.setDate(1, Date.valueOf(drawNumberURI.drawDate())),
         rs -> {
           if (rs.next()) {
-            return new DrawNumberURI(rs.getString("detail_uri"), rs.getString("archive_url"));
+            return new DrawNumberURI(rs.getString("resource_uri"), rs.getString("archive_url"));
           }
           return null;
         }
@@ -73,14 +73,14 @@ public class DrawNumberURIRepository {
 
   public Optional<List<DrawNumberURI>> fetch(String year) {
     return jdbcTemplate.query(
-        "SELECT * FROM draw_number_uri where EXTRACT(YEAR FROM draw_date)=?;",
+        "SELECT * FROM draw_resource_uri where EXTRACT(YEAR FROM draw_date)=?;",
         (PreparedStatement ps) -> ps.setInt(1, Integer.parseInt(year)),
         rs -> {
           if (rs.next()) {
             List<DrawNumberURI> uris = new ArrayList<>();
 
             while (rs.next()) {
-              uris.add(new DrawNumberURI(rs.getString("detail_uri"), rs.getString("archive_url")));
+              uris.add(new DrawNumberURI(rs.getString("resource_uri"), rs.getString("archive_url")));
             }
 
             return Optional.of(uris);

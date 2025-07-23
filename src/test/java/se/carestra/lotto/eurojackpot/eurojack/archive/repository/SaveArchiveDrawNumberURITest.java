@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class SaveArchiveDrawNumberURITest extends H2EmbeddedDataSourceSupport {
 
   @Test
-  @Sql(scripts = {"/draw_number_uri_schema.sql"})
+  @Sql(scripts = {"/draw_resource_uri_schema.sql"})
   void saveSingleValue() {
     String pathUrl = "/results/14-06-2025";
     String archiveUrl = "http://mock.server.com/" + pathUrl;
