@@ -1,5 +1,3 @@
-drop table if exists draw_result;
-
 create table if not exists draw_result
 (
     draw_date                   date      not null,
@@ -14,4 +12,4 @@ create table if not exists draw_result
     created_date                timestamp not null,
     modified_date               timestamp,
     primary key (draw_date)
-)
+);
