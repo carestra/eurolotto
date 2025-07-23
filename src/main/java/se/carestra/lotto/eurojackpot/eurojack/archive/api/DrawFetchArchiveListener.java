@@ -21,15 +21,15 @@ public class DrawFetchArchiveListener {
 
   /**
    * Method is synchronized since we are querying and saving to a shared resource (db).
-   * Otherwise multiple threads will cause race condition when both act on samme event, both read db
-   * and got response that the archive year is not found, but ony one will save fetched values, the other
+   * Otherwise, multiple threads will cause race condition when both act on samme event, both read db
+   * and got response that the archive year is not found, but anyone will save fetched values, the other
    * will throw duplication key exception.
    *
    * @param event
    */
   @ApplicationModuleListener
   synchronized void on(FetchArchiveEvent event) {
-    boolean hasArchiveYear = repository.hasArchiveYear(event.yearAsInt());
+    boolean hasArchiveYear = repository.hasArchiveYear(event.year());
     if (hasArchiveYear) {
       LOGGER.info("Archive year {} already fetched.", event.year());
     } else {
@@ -42,5 +42,7 @@ public class DrawFetchArchiveListener {
               () -> LOGGER.info("No archive found for year {}", event.year())
           );
     }
+    // TODO: deletePublicationsOlderThan(X)
+    //  or create a scheduler that uses IncompleteEventPublications and CompletedEventPublications to do cleanup.
   }
 }

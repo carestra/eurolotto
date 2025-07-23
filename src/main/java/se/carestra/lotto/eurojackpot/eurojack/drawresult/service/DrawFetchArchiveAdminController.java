@@ -20,7 +20,7 @@ public class DrawFetchArchiveAdminController {
 
   @Transactional
   @GetMapping("/trigger/archive/year/{year:^201[2-9]|202[0-5]}")
-  public void triggerFetchArchive(@PathVariable("year") int year) {
-    publisher.publishEvent(new FetchArchiveEvent(Integer.toString(year)));
+  public void triggerFetchArchive(@PathVariable("year") String year) {
+    publisher.publishEvent(new FetchArchiveEvent(year));
   }
 }
