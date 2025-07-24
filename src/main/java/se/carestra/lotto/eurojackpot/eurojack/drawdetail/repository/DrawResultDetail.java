@@ -24,7 +24,7 @@ import static jakarta.persistence.TemporalType.TIMESTAMP;
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "draw_detail")
-public class DrawResultDetail {
+class DrawResultDetail {
   @Id
   @Column(name = "draw_date")
   private LocalDate drawDate;
@@ -42,9 +42,9 @@ public class DrawResultDetail {
   @LastModifiedDate
   private LocalDateTime modifiedDate;
 
-  @Column(name = "balls_draw_order")
-  private List<Integer> ballsDrawOrder;
-  @Column(name = "euroballs_draw_order")
+  @Column(name = "selected_balls_draw_order")
+  private List<Integer> selectedBallsDrawOrder;
+  @Column(name = "euro_balls_draw_order")
   private List<Integer> euroBallsDrawOrder;
   @Column(name = "jackpot_amount")
   private BigInteger jackpotAmount;
@@ -59,8 +59,9 @@ public class DrawResultDetail {
   private String archiveUrl;
 
   public DrawDetails convert() {
-    EurojackpotDraw draw = new EurojackpotDraw(new BallNumbers(ballsDrawOrder), new EuroBallNumbers(euroBallsDrawOrder));
-    JackpotDetail jackpot = new JackpotDetail(new AmountCurrency(jackpotAmount.toString(), currencySymbol), rollover, jackpotWinnersCount);
-    return new DrawDetails(draw, jackpot, resourceUri, archiveUrl);
+    SelectedBallNumbers selectedBallNumbers = new SelectedBallNumbers(selectedBallsDrawOrder);
+    EuroBallNumbers euroBallNumbers = new EuroBallNumbers(euroBallsDrawOrder);
+    JackpotDetail jackpot = new JackpotDetail(new AmountCurrency(jackpotAmount, currencySymbol), rollover, jackpotWinnersCount);
+    return new DrawDetails(selectedBallNumbers, euroBallNumbers, jackpot, resourceUri, archiveUrl);
   }
 }

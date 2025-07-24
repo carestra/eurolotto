@@ -2,8 +2,8 @@ package se.carestra.lotto.eurojackpot.eurojack.drawdetail.api;
 
 import java.util.List;
 
-public record BallNumbers(List<Integer> numbers) {
-  public BallNumbers {
+public record SelectedBallNumbers(List<Integer> numbers) {
+  public SelectedBallNumbers {
     if (numbers == null || numbers.isEmpty()) {
       throw new NullPointerException("number cannot be null nor empty.");
     }
