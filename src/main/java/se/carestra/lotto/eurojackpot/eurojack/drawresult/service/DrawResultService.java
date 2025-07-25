@@ -54,12 +54,12 @@ public class DrawResultService {
               .map(detail ->
                   new DrawDetail(
                       detail.drawDate(),
-                      detail.draw().ballNumbers().numbers(),
-                      detail.draw().euroBallNumbers().numbers(),
-                      detail.jackpotDetail().jackpotAmount().formattedAmount(),
-                      detail.jackpotDetail().jackpotAmount().currencySymbol(),
-                      detail.jackpotDetail().rollover(),
-                      detail.jackpotDetail().nrOfWinners(),
+                      detail.selectedBallNumbers().numbers(),
+                      detail.euroBallNumbers().numbers(),
+                      detail.jackpotAmount().amount(),
+                      detail.jackpotAmount().currencySymbol(),
+                      detail.jackpotRollover().rollover(),
+                      detail.jackpotNumberOfWinners().nrOfWinners(),
                       detail.resourceUri(),
                       detail.fullPath()
                   ));

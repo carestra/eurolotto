@@ -24,7 +24,7 @@ import static jakarta.persistence.TemporalType.TIMESTAMP;
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "draw_detail")
-class DrawResultDetail {
+public class DrawResultDetail {
   @Id
   @Column(name = "draw_date")
   private LocalDate drawDate;
@@ -50,6 +50,7 @@ class DrawResultDetail {
   private BigInteger jackpotAmount;
   @Column(name = "currency_symbol")
   private String currencySymbol;
+  @Column(name = "jackpot_rollover_count")
   private Integer rollover;
   @Column(name = "number_of_jackpot_winners")
   private Integer jackpotWinnersCount;
@@ -61,7 +62,9 @@ class DrawResultDetail {
   public DrawDetails convert() {
     SelectedBallNumbers selectedBallNumbers = new SelectedBallNumbers(selectedBallsDrawOrder);
     EuroBallNumbers euroBallNumbers = new EuroBallNumbers(euroBallsDrawOrder);
-    JackpotDetail jackpot = new JackpotDetail(new AmountCurrency(jackpotAmount, currencySymbol), rollover, jackpotWinnersCount);
-    return new DrawDetails(selectedBallNumbers, euroBallNumbers, jackpot, resourceUri, archiveUrl);
+    JackpotAmount amount = new JackpotAmount(jackpotAmount, currencySymbol);
+    JackpotRollover rolloverCount = new JackpotRollover(rollover);
+    JackpotNumberOfWinners winners = new JackpotNumberOfWinners(jackpotWinnersCount);
+    return new DrawDetails(selectedBallNumbers, euroBallNumbers, amount, rolloverCount, winners, resourceUri, archiveUrl);
   }
 }

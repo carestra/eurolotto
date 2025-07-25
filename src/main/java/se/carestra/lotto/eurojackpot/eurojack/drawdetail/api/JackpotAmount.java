@@ -4,8 +4,8 @@ import java.math.BigInteger;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-public record AmountCurrency(String amount, String currencySymbol) {
-  public AmountCurrency {
+public record JackpotAmount(String amount, String currencySymbol) {
+  public JackpotAmount {
     if (amount == null || amount.isEmpty()) {
       throw new IllegalArgumentException("Amount cannot be null nor empty.");
     }
@@ -16,7 +16,7 @@ public record AmountCurrency(String amount, String currencySymbol) {
     amount = amount.replace(",", "");
   }
 
-  public AmountCurrency(BigInteger amount, String currencySymbol) {
+  public JackpotAmount(BigInteger amount, String currencySymbol) {
     this(amount.toString(), currencySymbol);
   }
 

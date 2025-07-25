@@ -1,23 +1,13 @@
 package se.carestra.lotto.eurojackpot.eurojack.drawdetail;
 
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
-import java.util.Objects;
 import java.util.Optional;
 
-record RibbonElements(Optional<Elements> resultsElements) {
-  private static Optional<Element> ribbonSpanElement;
+record JackpotRolloverElements(Optional<Element> ribbonSpanElement) implements RolloverRibbon {
 
-  RibbonElements {
-    Optional<Elements> ribbonElements = resultsElements
-        .map(results -> results.select("div.ribbon"))
-        .filter(Objects::nonNull);
-
-    ribbonSpanElement = ribbonElements
-        .map(ribbon -> ribbon.select("span"))
-        .filter(Objects::nonNull)
-        .map(elements -> elements.getFirst());
+  JackpotRolloverElements(RibbonDivElementExtractor divElements) {
+    this(divElements.element);
   }
 
   public Boolean hasRibbonElements() {

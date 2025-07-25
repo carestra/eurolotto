@@ -8,7 +8,9 @@ import java.time.temporal.TemporalAccessor;
 public record DrawDetails(LocalDate drawDate,
                           SelectedBallNumbers selectedBallNumbers,
                           EuroBallNumbers euroBallNumbers,
-                          JackpotDetail jackpotDetail,
+                          JackpotAmount jackpotAmount,
+                          JackpotRollover jackpotRollover,
+                          JackpotNumberOfWinners jackpotNumberOfWinners,
                           String resourceUri,
                           String fullPath) {
   public DrawDetails {
@@ -18,8 +20,14 @@ public record DrawDetails(LocalDate drawDate,
     if (euroBallNumbers == null) {
       throw new NullPointerException("euroBallNumbers cannot be null.");
     }
-    if (jackpotDetail == null) {
-      throw new NullPointerException("jackpotDetail cannot be null.");
+    if (jackpotAmount == null) {
+      throw new NullPointerException("jackpotAmount cannot be null.");
+    }
+    if (jackpotRollover == null) {
+      throw new NullPointerException("jackpotRollover cannot be null.");
+    }
+    if (jackpotNumberOfWinners == null) {
+      throw new NullPointerException("jackpotNumberOfWinners cannot be null.");
     }
     if (resourceUri == null) {
       throw new NullPointerException("resourceUri cannot be null.");
@@ -31,10 +39,12 @@ public record DrawDetails(LocalDate drawDate,
 
   public DrawDetails(SelectedBallNumbers selectedBallNumbers,
                      EuroBallNumbers euroBallNumbers,
-                     JackpotDetail jackpotDetail,
+                     JackpotAmount jackpotAmount,
+                     JackpotRollover jackpotRollover,
+                     JackpotNumberOfWinners jackpotNumberOfWinners,
                      String resourceUri,
                      String fullPath) {
-    this(extractAndParseDatePart(resourceUri), selectedBallNumbers, euroBallNumbers, jackpotDetail, resourceUri, fullPath);
+    this(extractAndParseDatePart(resourceUri), selectedBallNumbers, euroBallNumbers, jackpotAmount, jackpotRollover, jackpotNumberOfWinners, resourceUri, fullPath);
   }
 
   private static final String DETAIL_URI_PATH_PREFIX = "/results/";

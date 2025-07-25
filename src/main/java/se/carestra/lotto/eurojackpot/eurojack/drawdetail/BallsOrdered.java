@@ -10,32 +10,10 @@ sealed interface BallsOrdered permits SelectedBallsOrderedElements, EuroBallsOrd
 
   boolean hasBallListElements();
 
-  static boolean hasMissingValue(Optional<Elements> resultElements) {
-    Optional<Elements> optionalElements = getAllBallsElements(resultElements);
-
-    return optionalElements
-        .map(elements -> {
-          Element first = elements.first();
-          if (first == null)
-            return true;
-          return false;
-        })
-        .orElse(true);
-  }
-
-  static Optional<Elements> fetchBallsElements(Optional<Elements> resultElements, QueryBallSelector selector) {
-    Optional<Elements> optionalElements = getAllBallsElements(resultElements);
-
-    return optionalElements
-        .map(elements -> elements.first())
-        .filter(Objects::nonNull)
-        .map(allBalls -> allBalls.select(selector.getCssQuerySelector()));
-  }
-
-  private static Optional<Elements> getAllBallsElements(Optional<Elements> resultElements) {
-    return resultElements
-        .map(results -> results.select("ul#ballsDrawn"))
-        .filter(Objects::nonNull);
+  static Optional<Elements> fetchBallsElements(UnorderBallListElementExtractor ulElements, QueryBallSelector selector) {
+    return ulElements
+        .allBallsElements
+        .map(allBalls -> allBalls.select(selector.cssQuerySelector));
   }
 
   enum QueryBallSelector {
@@ -46,9 +24,24 @@ sealed interface BallsOrdered permits SelectedBallsOrderedElements, EuroBallsOrd
     QueryBallSelector(String cssQuerySelector) {
       this.cssQuerySelector = cssQuerySelector;
     }
+  }
 
-    String getCssQuerySelector() {
-      return this.cssQuerySelector;
+  class UnorderBallListElementExtractor {
+    private final Optional<Element> allBallsElements;
+    protected boolean missingValue;
+
+    UnorderBallListElementExtractor(Optional<Elements> resultElements) {
+      Optional<Elements> optionalElements = resultElements
+          .map(results -> results.select("ul#ballsDrawn"))
+          .filter(Objects::nonNull);
+
+      this.allBallsElements = optionalElements
+          .map(elements -> {
+            Element first = elements.first();
+            if (first == null)
+              this.missingValue = true;
+            return first;
+          });
     }
   }
 }

@@ -37,33 +37,51 @@ class EurojackpotDramNumberDetailScrapper implements DrawDetailScrapper {
       LOGGER.info("Fetching resource document: {}", resourceUri);
       return getResultElements(document)
           .map(extractDetails())
-          .filter(ResultElements::containsAllElements)
-          .map(mapToDrawDetails(resourceUri, fullPath));
+          .filter(DrawDetailComponents::containsAllElements)
+          .flatMap(mapToDrawDetails(resourceUri, fullPath));
     } catch (IOException e) {
       LOGGER.error("Could not fetch draw numbers detail from path [{}]", fullPath, e);
       return Optional.empty();
     }
   }
 
-  private static Function<Optional<Elements>, ResultElements> extractDetails() {
+  private static Function<Optional<Elements>, DrawDetailComponents> extractDetails() {
     return optionalResultElements -> {
-      DrawOrderBallsElements balls = new DrawOrderBallsElements(optionalResultElements);
-      RibbonElements ribbon = new RibbonElements(optionalResultElements);
-      WinnersElements winners = new WinnersElements(optionalResultElements);
-      JackpottElements jackpottAmount = new JackpottElements(optionalResultElements);
-      return new ResultElements(balls, ribbon, winners, jackpottAmount);
+      BallsOrdered.UnorderBallListElementExtractor unorderBallListElementExtractor = new BallsOrdered.UnorderBallListElementExtractor(optionalResultElements);
+      SelectedBallsOrderedElements selectedBallsOrdered = new SelectedBallsOrderedElements(unorderBallListElementExtractor);
+      EuroBallsOrderedElements euroBallsOrdered = new EuroBallsOrderedElements(unorderBallListElementExtractor);
+      JackpotAmountElements jackpotAmount = new JackpotAmountElements(new AmountCurrency.JackpotAmountDivElementExtractor(optionalResultElements));
+      JackpotRolloverElements ribbon = new JackpotRolloverElements(new RolloverRibbon.RibbonDivElementExtractor(optionalResultElements));
+      JackpotWinnersElements winners = new JackpotWinnersElements(new Winners.WinnersDivElementExtractor(optionalResultElements));
+
+      return new DrawDetailComponents(selectedBallsOrdered, euroBallsOrdered, jackpotAmount, ribbon, winners);
     };
   }
 
-  private static Function<ResultElements, DrawDetails> mapToDrawDetails(String resourceUri, String fullPath) {
+  private static Function<DrawDetailComponents, Optional<DrawDetails>> mapToDrawDetails(String resourceUri, String fullPath) {
     return resultElements -> {
-      Optional<EurojackpotDraw> drawNumbers = resultElements.balls().getEurojackpotDraw();
-      Optional<Integer> rollover = resultElements.ribbon().getRollover();
-      Optional<Integer> nrOfWinners = resultElements.winners().getNumberOfJackpotWinners();
-      Optional<AmountCurrency> jackpotAmount = resultElements.jackpottAmount().getJackpotAmount();
-      JackpotDetail jackpotDetail = new JackpotDetail(jackpotAmount.get(), rollover.get(), nrOfWinners.get());
+      Optional<SelectedBallNumbers> selectedBallNumbers = resultElements.selectedBallsOrdered().getSelectedBalls();
+      Optional<EuroBallNumbers> euroBallNumbers = resultElements.euroBallsOrdered().getEuroBalls();
+      Optional<JackpotAmount> jackpotAmount = resultElements.jackpotAmount().getJackpotAmount();
+      Optional<JackpotRollover> rollover = resultElements.jackpotRollover().getRollover().map(JackpotRollover::new);
+      Optional<JackpotNumberOfWinners> jackpotNumberOfWinners = resultElements.jackpotNumberOfWinners().getNumberOfWinners().map(JackpotNumberOfWinners::new);
 
-      return new DrawDetails(drawNumbers.get(), jackpotDetail, resourceUri, fullPath);
+      return selectedBallNumbers
+          .flatMap(selectedBalls ->
+              euroBallNumbers
+                  .flatMap(euroBalls ->
+                      jackpotAmount
+                          .flatMap(amount ->
+                              rollover
+                                  .flatMap(rolloverCount ->
+                                      jackpotNumberOfWinners
+                                          .map(numberOfWinners ->
+                                              new DrawDetails(selectedBalls, euroBalls, amount, rolloverCount, numberOfWinners, resourceUri, fullPath)
+                                          )
+                                  )
+                          )
+                  )
+          );
     };
   }
 

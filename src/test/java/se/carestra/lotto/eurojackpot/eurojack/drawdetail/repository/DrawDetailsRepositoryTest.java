@@ -24,7 +24,7 @@ class DrawDetailsRepositoryTest {
   void setUp() {
     drawResultDetail = DrawResultDetail.builder()
         .drawDate(LocalDate.now())
-        .ballsDrawOrder(List.of(40,5,27,9,18))
+        .selectedBallsDrawOrder(List.of(40,5,27,9,18))
         .euroBallsDrawOrder(List.of(2,11))
         .jackpotAmount(new BigInteger("300000"))
         .currencySymbol("kr")

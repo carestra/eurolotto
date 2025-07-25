@@ -320,20 +320,20 @@ class EurojackpotNumberDetailScrapperTest {
   }
 
   private static void assertJackpotAmount(DrawDetails drawDetails) {
-    String jackpotAmountActual = drawDetails.jackpotDetail().jackpotAmount().formattedAmount();
-    assertEquals("340,000,000", jackpotAmountActual);
-    String jackpotAmountCurrencySymbol = drawDetails.jackpotDetail().jackpotAmount().currencySymbol();
+    String jackpotAmountActual = drawDetails.jackpotAmount().amount();
+    assertEquals("340000000", jackpotAmountActual);
+    String jackpotAmountCurrencySymbol = drawDetails.jackpotAmount().currencySymbol();
     assertEquals("kr", jackpotAmountCurrencySymbol);
   }
 
   private static void assertEuroBalls(DrawDetails drawDetails) {
-    List<Integer> euroballsActual = drawDetails.draw().euroBallNumbers().numbers().stream().toList();
+    List<Integer> euroballsActual = drawDetails.euroBallNumbers().numbers().stream().toList();
     List<Integer> euroballsExpected = List.of(9, 5);
     assertEquals(euroballsExpected, euroballsActual);
   }
 
   private static void assertBalls(DrawDetails drawDetails) {
-    List<Integer> ballsActual = drawDetails.draw().ballNumbers().numbers().stream().toList();
+    List<Integer> ballsActual = drawDetails.selectedBallNumbers().numbers().stream().toList();
     List<Integer> ballsExpected = List.of(46, 15, 27, 1, 8);
     assertEquals(ballsExpected, ballsActual);
   }

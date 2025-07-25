@@ -8,10 +8,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import static se.carestra.lotto.eurojackpot.eurojack.drawdetail.BallsOrdered.fetchBallsElements;
+
 record SelectedBallsOrderedElements(Optional<Elements> ballsListElements,
                                     boolean missingValue) implements BallsOrdered {
-  SelectedBallsOrderedElements(Optional<Elements> resultsElements) {
-    this(BallsOrdered.fetchBallsElements(resultsElements, QueryBallSelector.SELECTED_BALLS), BallsOrdered.hasMissingValue(resultsElements));
+  SelectedBallsOrderedElements(UnorderBallListElementExtractor ulElements) {
+    this(fetchBallsElements(ulElements, QueryBallSelector.SELECTED_BALLS), ulElements.missingValue);
   }
 
   @Override
