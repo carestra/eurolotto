@@ -1,17 +1,13 @@
 package se.carestra.lotto.eurojackpot.eurojack.archive;
 
-import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import java.util.Objects;
 import java.util.Optional;
 
-record SelectedYearElement(Optional<Document> documentElement, Optional<Elements> anchorsElements) {
-  SelectedYearElement {
-    anchorsElements = documentElement
-        .map(document -> document.select("a.btn "))
-        .filter(anchorElements -> anchorElements.hasClass("btn--grey"))
-        .filter(Objects::nonNull);
+record YearButtonSelectedElement(Optional<Elements> anchorsElements) implements YearButtonAnchor {
+  YearButtonSelectedElement(YearButtonElementExtractor yearButtonElementExtractor) {
+    this(yearButtonElementExtractor.anchorsElements);
   }
 
   public Boolean isSelected(String archiveYear) {

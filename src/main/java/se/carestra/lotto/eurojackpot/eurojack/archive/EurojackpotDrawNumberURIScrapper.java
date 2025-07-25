@@ -40,14 +40,14 @@ class EurojackpotDrawNumberURIScrapper implements DrawNumberURIScrapper {
       return Optional.ofNullable(document)
           .flatMap(optionalDocument -> {
             // TODO: verify that year has been selected
-            SelectedYearElement yearSelected = new SelectedYearElement(optionalDocument, Optional.empty());
+            YearButtonSelectedElement yearSelected = new YearButtonSelectedElement(new YearButtonAnchor.YearButtonElementExtractor(optionalDocument));
             // TODO: Use builder pattern?
-            TableElements table = new TableElements(optionalDocument, Optional.empty());
-            TableBodyElement body = new TableBodyElement(table.tableElements(), Optional.empty());
-            TableBodyRowElements rows = new TableBodyRowElements(body.tableBodyElement(), Optional.empty());
-            TableBodyRowDataElement data = new TableBodyRowDataElement(rows.tableBodyRowElements(), Optional.empty());
-            AnchorElements anchors = new AnchorElements(data.rowsDataStream(), Optional.empty());
-            HrefElements hrefs = new HrefElements(anchors.anchorsStream(), Optional.empty());
+            TableElements table = new TableElements(new Table.TableElementsExtractor(optionalDocument));
+            TableBodyElement body = new TableBodyElement(new TableBody.TableBodyElementExtractor(table.tableElements()));
+            TableBodyRowElements rows = new TableBodyRowElements(new TableBodyRow.TableBodyRowExtractor(body.tableBodyElement()));
+            TableBodyRowDataElement data = new TableBodyRowDataElement(new TableBodyRowData.TableRowDataExtractor(rows.tableBodyRowElements()));
+            ResourceAnchorElements anchors = new ResourceAnchorElements(new ResourceAnchor.AnchorElementExtractor(data.rowsDataStream()));
+            ResourceHrefElements hrefs = new ResourceHrefElements(new ResourceHref.HrefElementExtractor(anchors.anchorStream()));
             return hrefs.getDrawNumberURIs(fullPath);
           });
     } catch (IOException e) {
