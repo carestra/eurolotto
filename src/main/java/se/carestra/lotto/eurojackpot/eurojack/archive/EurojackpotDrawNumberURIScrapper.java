@@ -39,17 +39,19 @@ class EurojackpotDrawNumberURIScrapper implements DrawNumberURIScrapper {
 
       return Optional.ofNullable(document)
           .flatMap(optionalDocument -> {
-            // TODO: verify that year has been selected
             YearButtonSelectedElement yearSelected = new YearButtonSelectedElement(new YearButtonAnchor.YearButtonElementExtractor(optionalDocument));
-            // TODO: Use builder pattern?
+            // TODO: verify that year has been selected, refactor test to include mocking selected year.
+            //if (yearSelected.isSelected(archiveYear)) {
             TableElements table = new TableElements(new Table.TableElementsExtractor(optionalDocument));
-            TableBodyElement body = new TableBodyElement(new TableBody.TableBodyElementExtractor(table.tableElements()));
-            TableBodyRowElements rows = new TableBodyRowElements(new TableBodyRow.TableBodyRowExtractor(body.tableBodyElement()));
-            TableBodyRowDataElement data = new TableBodyRowDataElement(new TableBodyRowData.TableRowDataExtractor(rows.tableBodyRowElements()));
-            ResourceHrefElements hrefs = new ResourceHrefElements(data.rowsDataStream());
-            return hrefs.getDrawNumberURIs(fullPath);
+            if (table.hasTableElements()) {
+              return new ResourceHrefElements(table)
+                  .getDrawNumberURIs(fullPath);
+            }
+            //}
+            return Optional.empty();
           });
-    } catch (IOException e) {
+    } catch (
+        IOException e) {
       LOGGER.error("Could not fetch draw numbers detail url detailUri from archive [{}]", fullPath, e);
       return Optional.empty();
     }

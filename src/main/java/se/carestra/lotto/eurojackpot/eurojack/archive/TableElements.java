@@ -9,7 +9,7 @@ record TableElements(Optional<Element> tableElements) implements Table {
     this(tableElementsExtractor.tableElements);
   }
 
-  public Boolean hasTableElements() {
+  public boolean hasTableElements() {
     return tableElements.isPresent();
   }
 }

@@ -10,7 +10,7 @@ record YearButtonSelectedElement(Optional<Elements> anchorsElements) implements 
     this(yearButtonElementExtractor.anchorsElements);
   }
 
-  public Boolean isSelected(String archiveYear) {
+  public boolean isSelected(String archiveYear) {
     return anchorsElements
         .map(anchorsElement -> anchorsElement.attr("href"))
         .filter(Objects::nonNull)
