@@ -6,7 +6,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 record ResourceAnchorElements(Optional<Stream<Element>> anchorStream) implements ResourceAnchor {
-  ResourceAnchorElements(ResourceAnchor.AnchorElementExtractor anchorElementExtractor) {
-    this(anchorElementExtractor.anchorsStream);
+  ResourceAnchorElements {
+    anchorStream = extract(anchorStream);
   }
 }
