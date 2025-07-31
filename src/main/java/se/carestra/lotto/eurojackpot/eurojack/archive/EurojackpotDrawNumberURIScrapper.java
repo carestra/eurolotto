@@ -46,8 +46,7 @@ class EurojackpotDrawNumberURIScrapper implements DrawNumberURIScrapper {
             TableBodyElement body = new TableBodyElement(new TableBody.TableBodyElementExtractor(table.tableElements()));
             TableBodyRowElements rows = new TableBodyRowElements(new TableBodyRow.TableBodyRowExtractor(body.tableBodyElement()));
             TableBodyRowDataElement data = new TableBodyRowDataElement(new TableBodyRowData.TableRowDataExtractor(rows.tableBodyRowElements()));
-            ResourceAnchorElements anchors = new ResourceAnchorElements(data.rowsDataStream());
-            ResourceHrefElements hrefs = new ResourceHrefElements(new ResourceHref.HrefElementExtractor(anchors.anchorStream()));
+            ResourceHrefElements hrefs = new ResourceHrefElements(data.rowsDataStream());
             return hrefs.getDrawNumberURIs(fullPath);
           });
     } catch (IOException e) {

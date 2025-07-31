@@ -1,25 +1,19 @@
 package se.carestra.lotto.eurojackpot.eurojack.archive;
 
+import org.jsoup.nodes.Element;
 import se.carestra.lotto.eurojackpot.eurojack.archive.api.DrawNumberURI;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-record ResourceHrefElements(Optional<Stream<String>> hrefsStream) implements ResourceHref {
-  ResourceHrefElements(HrefElementExtractor hrefExtractor) {
-    this(hrefExtractor.hrefsStream);
+record ResourceHrefElements(ResourceAnchorElements anchors) implements ResourceHref {
+
+  ResourceHrefElements(Optional<Stream<Element>> anchorStream) {
+    this(new ResourceAnchorElements(anchorStream));
   }
 
   public Optional<List<DrawNumberURI>> getDrawNumberURIs(String fullPath) {
-    return hrefsStream
-        .map(hrefs ->
-            hrefs
-                .map(href -> new DrawNumberURI(href, fullPath))
-                .sorted(Comparator.comparing(DrawNumberURI::drawDate, Comparator.naturalOrder()))
-                .toList()
-        )
-        .filter(resources -> !resources.isEmpty());
+    return extractAndConvert(anchors.anchorStream(), fullPath);
   }
 }
