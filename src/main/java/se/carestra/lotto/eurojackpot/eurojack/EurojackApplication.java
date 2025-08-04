@@ -9,7 +9,7 @@ import se.carestra.lotto.eurojackpot.eurojack.scrapper.api.ScrapperHeaders;
 
 @SpringBootApplication
 @EnableConfigurationProperties(ScrapperHeaders.class)
-@EnableJpaAuditing
+@EnableJpaAuditing // Needed for JPA Auditing @CreatedDate and @LastModifiedDate
 public class EurojackApplication {
 
   /**
