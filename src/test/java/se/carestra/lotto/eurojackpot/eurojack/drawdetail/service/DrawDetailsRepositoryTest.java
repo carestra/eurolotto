@@ -1,4 +1,4 @@
-package se.carestra.lotto.eurojackpot.eurojack.drawdetail.repository;
+package se.carestra.lotto.eurojackpot.eurojack.drawdetail.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

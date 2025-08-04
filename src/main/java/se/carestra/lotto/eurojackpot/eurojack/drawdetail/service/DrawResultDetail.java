@@ -1,4 +1,4 @@
-package se.carestra.lotto.eurojackpot.eurojack.drawdetail.repository;
+package se.carestra.lotto.eurojackpot.eurojack.drawdetail.service;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -6,7 +6,6 @@ import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import se.carestra.lotto.eurojackpot.eurojack.drawdetail.api.*;
 
 import java.math.BigInteger;
 import java.time.LocalDate;

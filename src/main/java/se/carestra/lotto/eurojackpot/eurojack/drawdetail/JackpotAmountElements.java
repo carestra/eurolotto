@@ -1,7 +1,7 @@
 package se.carestra.lotto.eurojackpot.eurojack.drawdetail;
 
 import org.jsoup.nodes.Element;
-import se.carestra.lotto.eurojackpot.eurojack.drawdetail.api.JackpotAmount;
+import se.carestra.lotto.eurojackpot.eurojack.drawdetail.service.JackpotAmount;
 
 import java.util.Optional;
 

@@ -1,4 +1,4 @@
-package se.carestra.lotto.eurojackpot.eurojack.drawdetail.repository;
+package se.carestra.lotto.eurojackpot.eurojack.drawdetail.service;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

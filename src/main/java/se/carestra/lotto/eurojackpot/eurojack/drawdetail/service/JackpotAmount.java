@@ -1,4 +1,4 @@
-package se.carestra.lotto.eurojackpot.eurojack.drawdetail.api;
+package se.carestra.lotto.eurojackpot.eurojack.drawdetail.service;
 
 import java.math.BigInteger;
 import java.text.NumberFormat;

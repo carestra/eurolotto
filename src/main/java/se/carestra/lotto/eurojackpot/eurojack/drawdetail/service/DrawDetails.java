@@ -1,4 +1,4 @@
-package se.carestra.lotto.eurojackpot.eurojack.drawdetail.api;
+package se.carestra.lotto.eurojackpot.eurojack.drawdetail.service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -60,5 +60,9 @@ public record DrawDetails(LocalDate drawDate,
     } catch (DateTimeParseException parseException) {
       throw new IllegalArgumentException("Invalid resourceUri format [" + path + "]. Expected '/results/<dd-MM-YYYY>'.");
     }
+  }
+
+  public static String toResourceUri(LocalDate drawDate) {
+    return DETAIL_URI_PATH_PREFIX + drawDate.format(DATE_TEXT_FORMATTER);
   }
 }

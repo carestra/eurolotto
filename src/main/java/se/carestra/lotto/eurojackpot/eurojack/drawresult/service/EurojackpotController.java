@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import se.carestra.lotto.eurojackpot.eurojack.archive.service.ArchiveService;
+import se.carestra.lotto.eurojackpot.eurojack.drawdetail.service.DrawDetailService;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -18,20 +19,20 @@ import java.util.concurrent.CompletableFuture;
 @RequestMapping("draw")
 public class EurojackpotController {
 
-  private final DrawResultService drawService;
   private final ArchiveService archiveService;
+  private final DrawDetailService drawDetailService;
 
-  public EurojackpotController(@Autowired DrawResultService drawService,
-                               @Autowired ArchiveService archiveService) {
-    this.drawService = drawService;
+  public EurojackpotController(@Autowired ArchiveService archiveService,
+                               @Autowired DrawDetailService drawDetailService) {
     this.archiveService = archiveService;
+    this.drawDetailService = drawDetailService;
   }
 
   @GetMapping("/results/years/{year:201[2-9]|202[0-5]}")
   public CompletableFuture<Optional<List<DrawResourceURI>>> drawResourcesForYear(@PathVariable("year") String year) {
     return archiveService
         .findDrawResults(year)
-        .thenApplyAsync( maybeUris ->
+        .thenApplyAsync(maybeUris ->
             maybeUris.map(uris ->
                 uris.stream()
                     .map(from ->
@@ -49,9 +50,28 @@ public class EurojackpotController {
   }
 
   @GetMapping("/result/detail/date/{drawDate:(?:201[2-9]|202[0-5])-(?:0[1-9]|1[0-2])-(?:0[1-9]|[1-2][0-9]|3[0-1])}")
-  public CompletableFuture<DrawDetail> drawDetailForDate(@PathVariable("drawDate") LocalDate drawDate) {
-    // TODO: validate drawDate
-
-    return drawService.fetDrawDetailForDateAsync(drawDate);
+  public CompletableFuture<Optional<DrawDetail>> drawDetailForDate(@PathVariable("drawDate") LocalDate drawDate) {
+    return drawDetailService
+        .findDrawDetailForDateAsync(drawDate)
+        .thenApplyAsync(maybeDetails ->
+            maybeDetails.map(from ->
+                new DrawDetail(
+                    from.drawDate(),
+                    from.selectedBallNumbers().numbers(),
+                    from.euroBallNumbers().numbers(),
+                    from.jackpotAmount().amount(),
+                    from.jackpotAmount().currencySymbol(),
+                    from.jackpotRollover().rollover(),
+                    from.jackpotNumberOfWinners().nrOfWinners(),
+                    from.resourceUri(),
+                    from.fullPath()
+                )
+            )
+        ).whenCompleteAsync((success, failure) -> {
+          if (failure != null) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, failure.getMessage());
+          }
+          success.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        });
   }
 }

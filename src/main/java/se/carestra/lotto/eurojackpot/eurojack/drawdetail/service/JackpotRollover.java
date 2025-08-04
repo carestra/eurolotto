@@ -1,4 +1,4 @@
-package se.carestra.lotto.eurojackpot.eurojack.drawdetail.api;
+package se.carestra.lotto.eurojackpot.eurojack.drawdetail.service;
 
 public record JackpotRollover(Integer rollover) {
   public JackpotRollover {
