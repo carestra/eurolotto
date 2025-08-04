@@ -26,7 +26,7 @@ public class DrawResultService {
     this.detailsRepository = detailsRepository;
   }
 
-  @Async("postgresql-io")
+  @Async("repoExec-")
   public CompletableFuture<List<DrawResourceURI>> fetchDrawResourceURIsForYearAsync(String year) {
     return CompletableFuture.supplyAsync(() -> {
       Optional<List<DrawResourceURI>> maybeUris =
@@ -44,12 +44,12 @@ public class DrawResultService {
     });
   }
 
-  @Async("postgresql-io")
+  @Async("repoExec-")
   public CompletableFuture<DrawDetail> fetDrawDetailForDateAsync(LocalDate drawDate) {
     return CompletableFuture.supplyAsync(() -> {
       Optional<DrawDetail> maybeDetail =
           detailsRepository
-              .findById(drawDate)
+              .findByDrawDate(drawDate)
               .map(DrawResultDetail::convert)
               .map(detail ->
                   new DrawDetail(
