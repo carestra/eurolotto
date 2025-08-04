@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
-import se.carestra.lotto.eurojackpot.eurojack.archive.api.DrawNumberURI;
-import se.carestra.lotto.eurojackpot.eurojack.archive.api.DrawNumberURIScrapper;
+import se.carestra.lotto.eurojackpot.eurojack.archive.service.DrawNumberURI;
+import se.carestra.lotto.eurojackpot.eurojack.archive.service.DrawNumberURIScrapper;
 import se.carestra.lotto.eurojackpot.eurojack.scrapper.api.JsoupScrapper;
 
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package se.carestra.lotto.eurojackpot.eurojack.archive.repository;
+package se.carestra.lotto.eurojackpot.eurojack.archive.service;
 
 import org.h2.tools.Server;
 import org.junit.jupiter.api.BeforeAll;

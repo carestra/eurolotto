@@ -1,4 +1,4 @@
-package se.carestra.lotto.eurojackpot.eurojack.archive.repository;
+package se.carestra.lotto.eurojackpot.eurojack.archive.service;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

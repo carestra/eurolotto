@@ -1,4 +1,4 @@
-package se.carestra.lotto.eurojackpot.eurojack.archive.api;
+package se.carestra.lotto.eurojackpot.eurojack.archive.service;
 
 import org.springframework.lang.NonNull;
 

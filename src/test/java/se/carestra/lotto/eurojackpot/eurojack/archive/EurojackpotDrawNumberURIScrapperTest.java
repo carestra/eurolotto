@@ -8,8 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.modulith.test.ApplicationModuleTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import se.carestra.lotto.eurojackpot.eurojack.archive.api.DrawNumberURI;
-import se.carestra.lotto.eurojackpot.eurojack.archive.api.DrawNumberURIScrapper;
+import se.carestra.lotto.eurojackpot.eurojack.archive.service.DrawNumberURI;
+import se.carestra.lotto.eurojackpot.eurojack.archive.service.DrawNumberURIScrapper;
 import se.carestra.lotto.eurojackpot.eurojack.scrapper.api.JsoupScrapper;
 
 import java.io.IOException;

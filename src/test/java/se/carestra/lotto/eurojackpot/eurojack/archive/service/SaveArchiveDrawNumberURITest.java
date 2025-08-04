@@ -1,8 +1,7 @@
-package se.carestra.lotto.eurojackpot.eurojack.archive.repository;
+package se.carestra.lotto.eurojackpot.eurojack.archive.service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.test.context.jdbc.Sql;
-import se.carestra.lotto.eurojackpot.eurojack.archive.api.DrawNumberURI;
 
 import java.util.List;
 import java.util.Optional;

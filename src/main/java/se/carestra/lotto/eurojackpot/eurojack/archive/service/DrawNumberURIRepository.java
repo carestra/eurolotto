@@ -1,9 +1,8 @@
-package se.carestra.lotto.eurojackpot.eurojack.archive.repository;
+package se.carestra.lotto.eurojackpot.eurojack.archive.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-import se.carestra.lotto.eurojackpot.eurojack.archive.api.DrawNumberURI;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -14,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class DrawNumberURIRepository {
+class DrawNumberURIRepository {
 
   private static final String SAVE_SQL_QUERY =
       "INSERT INTO draw_resource_uri(draw_date, resource_uri, archive_url) VALUES(?,?,?);";
