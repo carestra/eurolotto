@@ -21,7 +21,10 @@ class DataSourceTestConfiguration {
    */
   @Bean
   DataSource dataSource() {
-    return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).setName("inmemory_test_db").build();
+    return new EmbeddedDatabaseBuilder().
+        setType(EmbeddedDatabaseType.H2)
+        .setName("inmemory_test_db;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH")
+        .build();
   }
 
   @Bean

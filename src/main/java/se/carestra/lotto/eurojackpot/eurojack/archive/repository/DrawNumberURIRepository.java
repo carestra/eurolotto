@@ -7,6 +7,8 @@ import se.carestra.lotto.eurojackpot.eurojack.archive.api.DrawNumberURI;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -16,9 +18,6 @@ public class DrawNumberURIRepository {
 
   private static final String SAVE_SQL_QUERY =
       "INSERT INTO draw_resource_uri(draw_date, resource_uri, archive_url) VALUES(?,?,?);";
-
-  private static final String RETRIEVE_SQL_QUERY =
-      "SELECT * FROM draw_resource_uri WHERE draw_date=?;";
 
   private static final String EXIST_DATE_SQL_QUERY =
       "SELECT EXISTS(SELECT * FROM draw_resource_uri where EXTRACT(YEAR FROM draw_date)=?);";
@@ -41,28 +40,6 @@ public class DrawNumberURIRepository {
           ps.setDate(1, Date.valueOf(drawNumber.drawDate()));
           ps.setString(2, drawNumber.resourceUri());
           ps.setString(3, drawNumber.archiveUrl());
-        }
-    );
-  }
-
-  public DrawNumberURI save(DrawNumberURI drawNumberURI) {
-    jdbcTemplate.update(
-        SAVE_SQL_QUERY,
-        ps1 -> {
-          ps1.setDate(1, Date.valueOf(drawNumberURI.drawDate()));
-          ps1.setString(2, drawNumberURI.resourceUri());
-          ps1.setString(3, drawNumberURI.archiveUrl());
-        }
-    );
-
-    return jdbcTemplate.query(
-        RETRIEVE_SQL_QUERY,
-        ps -> ps.setDate(1, Date.valueOf(drawNumberURI.drawDate())),
-        rs -> {
-          if (rs.next()) {
-            return new DrawNumberURI(rs.getString("resource_uri"), rs.getString("archive_url"));
-          }
-          return null;
         }
     );
   }
@@ -91,4 +68,17 @@ public class DrawNumberURIRepository {
     );
   }
 
+  public Optional<DrawNumberURI> findById(LocalDate localDate) {
+    return jdbcTemplate.query(
+        "SELECT * FROM draw_resource_uri where draw_date=?;",
+        (PreparedStatement ps) -> ps.setDate(1, Date.valueOf(localDate)),
+        (ResultSet re) -> {
+          if (re.next()) {
+            return Optional.of(new DrawNumberURI(re.getString("resource_uri"), re.getString("archive_url")));
+          } else {
+            return Optional.empty();
+          }
+        }
+    );
+  }
 }
