@@ -26,6 +26,9 @@ import static jakarta.persistence.TemporalType.TIMESTAMP;
 @Table(name = "draw_detail")
 public class DrawResultDetail {
   @Id
+  @Column(name = "resource_uri")
+  private String resourceUri;
+
   @Column(name = "draw_date")
   private LocalDate drawDate;
 
@@ -54,8 +57,6 @@ public class DrawResultDetail {
   private Integer rollover;
   @Column(name = "number_of_jackpot_winners")
   private Integer jackpotWinnersCount;
-  @Column(name = "resource_uri")
-  private String resourceUri;
   @Column(name = "archive_url")
   private String archiveUrl;
 
@@ -66,5 +67,19 @@ public class DrawResultDetail {
     JackpotRollover rolloverCount = new JackpotRollover(rollover);
     JackpotNumberOfWinners winners = new JackpotNumberOfWinners(jackpotWinnersCount);
     return new DrawDetails(selectedBallNumbers, euroBallNumbers, amount, rolloverCount, winners, resourceUri, archiveUrl);
+  }
+
+  public static DrawResultDetail convert(DrawDetails drawDetail) {
+    DrawResultDetailBuilder builder = DrawResultDetail.builder();
+    builder.resourceUri(drawDetail.resourceUri());
+    builder.drawDate(drawDetail.drawDate());
+    builder.selectedBallsDrawOrder(drawDetail.selectedBallNumbers().numbers());
+    builder.euroBallsDrawOrder(drawDetail.euroBallNumbers().numbers());
+    builder.jackpotAmount(drawDetail.jackpotAmount().amountAsBigInteger());
+    builder.currencySymbol(drawDetail.jackpotAmount().currencySymbol());
+    builder.rollover(drawDetail.jackpotRollover().rollover());
+    builder.jackpotWinnersCount(drawDetail.jackpotNumberOfWinners().nrOfWinners());
+    builder.archiveUrl(drawDetail.fullPath());
+    return builder.build();
   }
 }

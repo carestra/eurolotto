@@ -15,7 +15,7 @@ public record DrawNumberURI(String resourceUri, String archiveUrl) {
   }
 
   private static final String DETAIL_URI_PATH_PREFIX = "/results/";
-  private static final DateTimeFormatter DATE_TEXT_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-uuuu");
+  public static final DateTimeFormatter DATE_TEXT_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-uuuu");
 
   public LocalDate drawDate() {
     return LocalDate.from(parseUriDatePart(resourceUri));
