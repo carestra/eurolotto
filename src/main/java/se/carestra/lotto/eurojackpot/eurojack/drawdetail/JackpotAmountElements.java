@@ -3,6 +3,7 @@ package se.carestra.lotto.eurojackpot.eurojack.drawdetail;
 import org.jsoup.nodes.Element;
 import se.carestra.lotto.eurojackpot.eurojack.drawdetail.service.JackpotAmount;
 
+import java.math.BigInteger;
 import java.util.Optional;
 
 record JackpotAmountElements(Optional<Element> jackpotAmountElement,
@@ -17,7 +18,7 @@ record JackpotAmountElements(Optional<Element> jackpotAmountElement,
 
   public Optional<JackpotAmount> getJackpotAmount() {
     if (missingValue) {
-      return Optional.empty();
+      return Optional.of(new JackpotAmount(BigInteger.ZERO, ""));
     }
     return jackpotAmountElement
         .map(amount -> amount.text())
