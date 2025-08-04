@@ -17,7 +17,7 @@ public class DrawDetailService {
     this.scrapper = scrapper;
   }
 
-  @Async()
+  @Async("asyncExec")
   public CompletableFuture<Optional<DrawDetails>> findDrawDetailForDateAsync(LocalDate drawDate) {
     return CompletableFuture.supplyAsync(
         () -> detailsRepository

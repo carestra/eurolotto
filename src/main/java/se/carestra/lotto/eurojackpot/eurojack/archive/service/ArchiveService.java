@@ -20,7 +20,7 @@ public class ArchiveService {
     this.scrapper = scrapper;
   }
 
-  @Async
+  @Async("asyncExec")
   public CompletableFuture<Optional<List<DrawNumberURI>>> findDrawResults(String year) {
     return CompletableFuture.supplyAsync(() -> uriRepository.fetch(year).or(() -> scrapper.fetch(year)));
   }

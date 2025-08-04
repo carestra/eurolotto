@@ -10,13 +10,13 @@ import java.util.concurrent.Executor;
 @Configuration
 public class AsyncConfig implements AsyncConfigurer {
 
-  @Bean(name = "repoExec-")
+  @Bean(name = "asyncExec-")
   public Executor asyncExecutor() {
     ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
     executor.setCorePoolSize(10);
     executor.setMaxPoolSize(50);
     executor.setQueueCapacity(500);
-    executor.setThreadNamePrefix("repoExec-");
+    executor.setThreadNamePrefix("asyncExec-");
 
     return executor;
   }
